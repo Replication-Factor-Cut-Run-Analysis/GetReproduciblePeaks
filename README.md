@@ -1,5 +1,5 @@
 # PeakAnalyzer
-Process for analyzing peaks from ChipSeq or Cut&amp;Run Experiment
+Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
 
 
 Parameters:
