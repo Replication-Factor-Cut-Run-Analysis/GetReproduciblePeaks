@@ -1,7 +1,4 @@
-sample,fastq1,fastq2,sampleType,Control,merged_sample
-testSample1,resources/test_S7_R1_001_sub.fastq.gz,resources/test_S7_R2_001_sub.fastq.gz,treatment,testInput,testSample
-testInput1,resources/test_S7_R1_001_sub_copy.fastq.gz,resources/test_S7_R2_001_sub_copy.fastq.gz,control,NA,testInput
-testSample2,resources/test_S7_R1_001_sub.fastq.gz,resources/test_S7_R2_001_sub.fastq.gz,treatment,testInput,testSample
-testInput2,resources/test_S7_R1_001_sub_copy.fastq.gz,resources/test_S7_R2_001_sub_copy.fastq.gz,control,NA,testInput
-otherTestSample,resources/test_S7_R1_001_sub.fastq.gz,resources/test_S7_R2_001_sub.fastq.gz,treatment,testInput,NA
-otherTestInput,resources/test_S7_R1_001_sub_copy.fastq.gz,resources/test_S7_R2_001_sub_copy.fastq.gz,control,NA,NA
+sample,treatmentBam,inputBam,set
+testData1,resources/testData/test1.bam,resources/testData/input1.bam,testSet
+testData2,resources/testData/test2.bam,resources/testData/input2.bam,testSet
+testData3,resources/testData/test3.bam,resources/testData/input3.bam,testSet
