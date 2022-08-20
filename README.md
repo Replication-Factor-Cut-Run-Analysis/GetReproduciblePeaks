@@ -1,6 +1,25 @@
 # PeakAnalyzer
 Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
 
+```bash
+sbatch --constraint=westmere \
+--wrap="\
+snakemake \
+-R \
+-j 999 \
+--use-envmodules \
+--latency-wait 100 \
+--cluster-config config/cluster_config.yml \
+--cluster '\
+sbatch \
+-A {cluster.account} \
+-p {cluster.partition} \
+--cpus-per-task {cluster.cpus-per-task}  \
+--mem {cluster.mem} \
+--output {cluster.output} \
+--error {cluster.error}' \
+--time {cluster.time}"
+```
 
 Parameters:
 |Parameter|Description|Value|
