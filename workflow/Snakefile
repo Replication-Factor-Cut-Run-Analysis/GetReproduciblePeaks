@@ -17,6 +17,17 @@ def Bam_dict_from_sample(wildcards):
     "txBam": samples_table.loc[wildcards.sample, "treatmentBam"],
     "inBam": samples_table.loc[wildcards.sample, "inputBam"]
   }
+## this still needs work
+# return filenames/paths joined (ie space-separated) for a set of interest
+def CountFiles_dict_from_set(set_of_interest):
+  sample_lst = samples_table.loc[samples_table["set"] == set_of_interest,"sample"].to_list()
+  sample_string = ' '.join([str(item) for item in tx_lst])
+  return {
+    "txBam": tx_string,
+    "inBam": in_string
+  }
+
+
 
 
 ##################################################################
