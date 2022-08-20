@@ -60,6 +60,6 @@ rule write_read_counts:
         config["samtools"]
     shell:
         """
-        samtools idxstats {input.txBam} | awk -F '\t' '{s+=$3}END{print s}' > {output.treatmentCountFile}
-        samtools idxstats {input.inBam} | awk -F '\t' '{s+=$3}END{print s}' > {output.inputCountFile}
+        samtools idxstats {input.txBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.treatmentCountFile}
+        samtools idxstats {input.inBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.inputCountFile}
         """
