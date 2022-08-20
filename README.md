@@ -42,6 +42,10 @@ macs2 callpeak \
 --outdir results/macs2_normalPeaks/
 ```
 2.  Downsample treatment and input bams to the minimum read count for each replicate set.
+  a. Get minimum read counts for treatment and input samples of each set
+  ```bash
+  
+  ```
 3.  Merge replicate treatment and input downsampled bams.
 4.  Call peaks on merged bams. These are the "merged" peaks.
 5.  Identify merged that overlap peaks in each sample.
