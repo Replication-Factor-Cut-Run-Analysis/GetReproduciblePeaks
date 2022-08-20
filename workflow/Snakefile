@@ -28,7 +28,7 @@ rule all:
     input:
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
-        xpand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
+        expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
 
         
 # call narrow peaks with macs2
