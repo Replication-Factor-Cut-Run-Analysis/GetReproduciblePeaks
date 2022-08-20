@@ -18,8 +18,8 @@ sbatch \
 --cpus-per-task {cluster.cpus-per-task}  \
 --mem {cluster.mem} \
 --output {cluster.output} \
---error {cluster.error}' \
---time {cluster.time}"
+--error {cluster.error} \
+--time {cluster.time}'"
 }
 ```
 
