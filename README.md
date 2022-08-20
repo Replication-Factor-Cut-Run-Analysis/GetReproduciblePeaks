@@ -2,6 +2,7 @@
 Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
 
 ```bash
+runit () { 
 sbatch --constraint=westmere \
 --wrap="\
 snakemake \
@@ -19,6 +20,7 @@ sbatch \
 --output {cluster.output} \
 --error {cluster.error}' \
 --time {cluster.time}"
+}
 ```
 
 Parameters:
