@@ -16,7 +16,7 @@ macs2_broad_minimum_FDR_cutoff: 0.1
 #################################################################
 # These will be specific to your cluster                        #
 #################################################################
-macs2:: "macs2/2.2.7.1"
+macs2: "macs2/2.2.7.1"
 fastp: "fastp/0.23.2"
 bwa: "bwa/0.7.15"
 samtools: "samtools/1.14"
