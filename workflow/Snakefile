@@ -9,9 +9,6 @@ import pandas as pd
 samples_table = pd.read_csv(config["samples_csv"]).set_index("sample", drop=False)
 # convert all values in dataframe to strings
 samples_table = samples_table.applymap(str)
-# add read counts column to dataframe
-print reduce(lambda x, y: x + y, [ int(l.rstrip('\n').split('\t')[2]) for l in pysam.idxstats(filename) ])
-
 # make a samples list
 samples_lst = samples_table['sample'].to_list()
 # treatmentBam filename input function definition set to Python dictionary
