@@ -9,6 +9,9 @@ import pandas as pd
 samples_table = pd.read_csv(config["samples_csv"]).set_index("sample", drop=False)
 # convert all values in dataframe to strings
 samples_table = samples_table.applymap(str)
+# add read counts column to dataframe
+print reduce(lambda x, y: x + y, [ int(l.rstrip('\n').split('\t')[2]) for l in pysam.idxstats(filename) ])
+
 # make a samples list
 samples_lst = samples_table['sample'].to_list()
 # treatmentBam filename input function definition set to Python dictionary
@@ -45,4 +48,19 @@ rule call_narrow_peaks_with_macs2:
     shell:
         """
         macs2 callpeak -t {input.txBam} -c {input.inBam} -f BAMPE -g {params.effective_genome_size} -n {params.sample_name}_{params.minimum_FDR_cutoff} -q {params.minimum_FDR_cutoff} --outdir results/macs2_normalPeaks/
+        """
+
+ # write read counts for each bam to a file
+rule write_read_counts
+    input:
+        unpack(Bam_dict_from_sample)   # <--- we need to wrap our input function inside a special Snakemake function called unpack() which turns the dict into a collection of named inputs
+    output:
+        treatmentCountFile="mappedReadCounts/{sample}_treated_mappedReadCounts.txt",
+        inputCountFile="mappedReadCounts/{sample}_input_mappedReadCounts.txt",
+    envmodules:
+        config["samtools"]
+    shell:
+        """
+        samtools idxstats {input.txBam} | awk -F '\t' '{s+=$3}END{print s}' > {output.treatmentCountFile}
+        samtools idxstats {input.inBam} | awk -F '\t' '{s+=$3}END{print s}' > {output.inputCountFile}
         """
