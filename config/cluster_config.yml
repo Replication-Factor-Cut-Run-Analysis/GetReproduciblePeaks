@@ -1,4 +1,3 @@
-call_narrow_peaks_with_macs2
 # cluster_config.yml - cluster configuration
 __default__:
     account: sansam-lab
