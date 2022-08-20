@@ -30,7 +30,7 @@ Parameters:
 |broad_peaks|run macs with broad peaks or not|True or False|
 
 
-1.  Call peaks on individual samples.
+### Call peaks on individual samples.
 ```bash
 macs2 callpeak \
 -t {input.txBam} \
@@ -41,11 +41,18 @@ macs2 callpeak \
 -q {params.minimum_FDR_cutoff} \
 --outdir results/macs2_normalPeaks/
 ```
-2.  Downsample treatment and input bams to the minimum read count for each replicate set.
-  a. Get minimum read counts for treatment and input samples of each set
-  ```bash
-  
-  ```
+### Downsample treatment and input bams to the minimum read count for each replicate set.
+#### Write read counts for each treatment and input sample
+```bash
+samtools idxstats {input.txBam} | awk -F '\t' '{s+=$3}END{print s}' > {output.treatmentCountFile}
+samtools idxstats {input.inBam} | awk -F '\t' '{s+=$3}END{print s}' > {output.inputCountFile}
+```
+#### Get minimum read count for each replicate set
+```bash
+cat 
+```
+
+
 3.  Merge replicate treatment and input downsampled bams.
 4.  Call peaks on merged bams. These are the "merged" peaks.
 5.  Identify merged that overlap peaks in each sample.
