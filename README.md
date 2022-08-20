@@ -31,6 +31,16 @@ Parameters:
 
 
 1.  Call peaks on individual samples.
+```bash
+macs2 callpeak \
+-t {input.txBam} \
+-c {input.inBam} \
+-f BAMPE \
+-g {params.effective_genome_size} \
+-n {params.sample_name}_{params.minimum_FDR_cutoff} \
+-q {params.minimum_FDR_cutoff} \
+--outdir results/macs2_normalPeaks/
+```
 2.  Downsample treatment and input bams to the minimum read count for each replicate set.
 3.  Merge replicate treatment and input downsampled bams.
 4.  Call peaks on merged bams. These are the "merged" peaks.
