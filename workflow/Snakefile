@@ -95,6 +95,6 @@ rule get_set_min_read_counts:
         config["samtools"]
     shell:
         """
-        cat {params.count_files.txBam} > {output.treatmentMinCountFile}
-        cat {params.count_files.inBam} > {output.inputMinCountFile}
+        cat {params.count_files}[txBam] > {output.treatmentMinCountFile}
+        cat {params.count_files}[inBam] > {output.inputMinCountFile}
         """
