@@ -21,19 +21,6 @@ def Bam_dict_from_sample(wildcards):
     "inBam": samples_table.loc[wildcards.sample, "inputBam"]
   }
 
-# function that returns dict of filenames/paths joined (ie space-separated) for a set of interest
-
-def CountFiles_dict_from_set(wildcards):
-  sample_lst = samples_table.loc[samples_table["set"] == str(wildcards.set),"sample"].to_list()
-  tx_counts_files_list = expand('results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt', sample = sample_lst)
-  in_counts_files_list = expand('results/mappedReadCounts/{sample}_input_mappedReadCounts.txt', sample = sample_lst)
-  tx_string = ' '.join([str(item) for item in tx_counts_files_list])
-  in_string = ' '.join([str(item) for item in in_counts_files_list])
-  return {
-    "txBam": tx_string,
-    "inBam": in_string
-  }
-
 
 
 
@@ -83,19 +70,4 @@ rule write_read_counts:
         """
         samtools idxstats {input.txBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.treatmentCountFile}
         samtools idxstats {input.inBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.inputCountFile}
-        """
-
-# get min read counts for each set
-rule get_set_min_read_counts:
-    input:
-        unpack(CountFiles_dict_from_set)   # <--- we need to wrap our input function inside a special Snakemake function called unpack() which turns the dict into a collection of named inputs
-    output:
-        treatmentMinCountFile="results/minMappedReadCounts/{set}_treated_minMappedReadCounts.txt",
-        inputMinCountFile="results/minMappedReadCounts/{set}_input_minMappedReadCounts.txt",
-    envmodules:
-        config["samtools"]
-    shell:
-        """
-        cat {input.txBam} > {output.treatmentMinCountFile}
-        cat {input.inBam} > {output.inputMinCountFile}
         """
