@@ -47,6 +47,8 @@ rule all:
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
+        expand("results/downSampledBams/{sample}_tx.bam",sample = samples_lst),
+        expand("results/downSampledBams/{sample}_in.bam",sample = samples_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
         
@@ -111,11 +113,8 @@ rule downsample_min_read_counts:
         tx_counts=expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
         in_counts=expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
     output:
-        treatmentMinCountFile="results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt",
-        inputMinCountFile="results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt",
-    params:
-        output.tx_downsampled_bam = "results/downSampledBams/{sample}_tx.bam",,
-        output.in_downsampled_bam = "results/downSampledBams/{sample}_in.bam",,
+        tx_downsampled_bam = "results/downSampledBams/{sample}_tx.bam",
+        in_downsampled_bam = "results/downSampledBams/{sample}_in.bam",
     envmodules:
         config["samtools"]
     shell:
