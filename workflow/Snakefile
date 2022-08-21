@@ -26,10 +26,8 @@ def CountFiles_dict_from_set(set):
   in_counts_files_list = expand('results/mappedReadCounts/{sample}_input_mappedReadCounts.txt', sample = sample_lst)
   tx_string = ' '.join([str(item) for item in tx_counts_files_list])
   in_string = ' '.join([str(item) for item in in_counts_files_list])
-  return {
-    "txBam": tx_string,
-    "inBam": in_string
-  }
+  return [tx_string, in_string]
+  
 
 
 
@@ -90,8 +88,8 @@ rule get_set_min_read_counts:
         treatmentMinCountFile="results/minMappedReadCounts/{set}_treated_minMappedReadCounts.txt",
         inputMinCountFile="results/minMappedReadCounts/{set}_input_minMappedReadCounts.txt",
     params:
-        tx_count_files=CountFiles_dict_from_set({set})["txBam"],
-        in_count_files=CountFiles_dict_from_set({set})["inBam"],
+        tx_count_files=CountFiles_dict_from_set({set})[1],
+        in_count_files=CountFiles_dict_from_set({set})[2],
     envmodules:
         config["samtools"]
     shell:
