@@ -20,8 +20,8 @@ def Bam_dict_from_sample(wildcards):
     "inBam": samples_table.loc[wildcards.sample, "inputBam"]
   }
 # function that returns dict of filenames/paths joined (ie space-separated) for a set of interest
-def CountFiles_dict_from_set(set):
-  sample_lst = samples_table.loc[samples_table["set"] == str(set),"sample"].to_list()
+def CountFiles_dict_from_set(setOfInterest):
+  sample_lst = samples_table.loc[samples_table["set"] == str(setOfInterest),"sample"].to_list()
   tx_counts_files_list = expand('results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt', sample = sample_lst)
   in_counts_files_list = expand('results/mappedReadCounts/{sample}_input_mappedReadCounts.txt', sample = sample_lst)
   tx_string = ' '.join([str(item) for item in tx_counts_files_list])
