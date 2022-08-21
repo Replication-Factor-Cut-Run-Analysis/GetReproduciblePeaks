@@ -10,9 +10,9 @@ samples_table = pd.read_csv(config["samples_csv"]).set_index("sample", drop=Fals
 # convert all values in dataframe to strings
 samples_table = samples_table.applymap(str)
 # make a samples list
-samples_lst = samples_table['sample'].to_list()
+samples_lst = samples_table['sample'].to_list().applymap(str)
 # make sets list
-sets_lst = list(set(samples_table['set'].to_list()))
+sets_lst = list(set(samples_table['set'].to_list())).applymap(str)
 # treatmentBam filename input function definition set to Python dictionary
 
 def Bam_dict_from_sample(wildcards):
