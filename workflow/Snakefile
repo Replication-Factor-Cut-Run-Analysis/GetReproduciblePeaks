@@ -41,7 +41,7 @@ rule all:
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
-        #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
+        expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
 
 
@@ -88,13 +88,13 @@ rule get_set_min_read_counts:
         #treatmentMinCountFile="results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt",
         inputMinCountFile="results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt",
     params:
-        #tx_count_files=print(CountFiles_dict_from_set({wildcards.setOfInterest})[0]),
-        #tx_count_files = lambda w: config["heatmap-{}".format(w.condition)][k]
+        tx_count_files=print(CountFiles_dict_from_set("testSet")[0]),
+        #tx_count_files = lambda w: config["heatmap-{}".format(w.condition)][k],
         in_count_files=print(CountFiles_dict_from_set("testSet")[1]),
     envmodules:
         config["samtools"]
     shell:
         """
-        ## cat {params.tx_count_files} > {output.treatmentMinCountFile}
+        cat {params.tx_count_files} > {output.treatmentMinCountFile}
         cat {params.in_count_files} > {output.inputMinCountFile}
         """
