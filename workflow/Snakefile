@@ -106,6 +106,7 @@ rule write_read_counts:
         """
  
 # downsample read counts to minimum
+### need to add if then statement to avoid samtools view when the fraction =1
 rule downsample_min_read_counts:
     input:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
