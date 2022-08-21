@@ -30,10 +30,10 @@ def CountFiles_dict_from_set(setOfInterest):
   return [tx_string, in_string]
 # functions that return dicts of bam filenames/paths joined (ie space-separated) for each sample
 def Tx_BamFiles_dict_from_samples(sample):
-  bam_lst = samples_table.loc[samples_table["sample"] == str(sample),"treatmentBam"].to_list()
+  bam_lst = set(samples_table.loc[samples_table["sample"] == str(sample),"treatmentBam"].to_list())
   return ' '.join([str(item) for item in bam_lst])
 def In_BamFiles_dict_from_samples(sample):
-  bam_lst = samples_table.loc[samples_table["sample"] == str(sample),"inputBam"].to_list()
+  bam_lst = set(samples_table.loc[samples_table["sample"] == str(sample),"inputBam"].to_list())
   return ' '.join([str(item) for item in bam_lst])
 
 
