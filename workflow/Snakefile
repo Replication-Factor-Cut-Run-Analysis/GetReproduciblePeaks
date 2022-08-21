@@ -79,7 +79,7 @@ rule write_read_counts:
 # downsample read counts to minimum of each set
 rule downsample_min_read_counts:
     input:
-        bamFiles=unpack(Bam_dict_from_sample),
+        #bamFiles=unpack(Bam_dict_from_sample),
         tx_counts=expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
         in_counts=expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
     output:
