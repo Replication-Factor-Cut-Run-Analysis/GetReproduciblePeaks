@@ -44,11 +44,14 @@ def In_BamFiles_dict_from_samples(sample):
 # to run snakemake without explicitly requesting any output files on the command line, we must request output files in the first rule. Therefore we include this otherwise useless rule here  
 rule all:
     input:
-        expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
-        expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
-        expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
-        expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
-        expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
+        #expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
+        #expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
+        #expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
+        #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
+        #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
+        expand("results/mergedTechnicalReplicates/{sample}_tx.bam",sample = samples_lst),
+        expand("results/mergedTechnicalReplicates/{sample}_in.bam",sample = samples_lst),
+        
 
 # merge technical replicates
 rule merge_technical_replicates:
