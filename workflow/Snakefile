@@ -12,7 +12,7 @@ samples_table = samples_table.applymap(str)
 # make a samples list
 samples_lst = samples_table['sample'].to_list()
 # make sets list
-sets_lst = samples_table['set'].to_list()
+sets_lst = set(samples_table['set'].to_list())
 # treatmentBam filename input function definition set to Python dictionary
 
 def Bam_dict_from_sample(wildcards):
