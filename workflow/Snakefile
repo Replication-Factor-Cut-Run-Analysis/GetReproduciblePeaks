@@ -85,11 +85,11 @@ rule get_set_min_read_counts:
         expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
     output:
-        treatmentMinCountFile="results/minMappedReadCounts/{set}_treated_minMappedReadCounts.txt",
-        inputMinCountFile="results/minMappedReadCounts/{set}_input_minMappedReadCounts.txt",
+        treatmentMinCountFile="results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt",
+        inputMinCountFile="results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt",
     params:
-        tx_count_files=CountFiles_dict_from_set(str({set}))[0],
-        in_count_files=str(CountFiles_dict_from_set({set})[1]),
+        tx_count_files=CountFiles_dict_from_set("{setOfInterest}")[0],
+        in_count_files=CountFiles_dict_from_set("{setOfInterest}")[1],
     envmodules:
         config["samtools"]
     shell:
