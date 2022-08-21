@@ -42,8 +42,8 @@ def CountFiles_dict_from_set(set_of_interest):
 rule all:
     input:
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
-        #expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
-        #expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
+        expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
+        expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
         expand("results/minMappedReadCounts/{sample}_treated_minMappedReadCounts.txt", sample = sets_lst),
         expand("results/minMappedReadCounts/{sample}_input_minMappedReadCounts.txt", sample = sets_lst),
 
