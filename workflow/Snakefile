@@ -119,8 +119,8 @@ rule downsample_min_read_counts:
         config["samtools"]
     shell:
         """
-        tx_min=$(cat {params.tx_count_files} | sort -n | head -1)
-        in_min=$(cat {params.in_count_files} | sort -n | head -1)
+        tx_min=$(cat {input.tx_count_files} | sort -n | head -1)
+        in_min=$(cat {input.in_count_files} | sort -n | head -1)
         
         downSampleBam () {
           fraction=$(samtools idxstats $2 | cut -f3 | awk -v ct=$1 'BEGIN {{total=0}} {{total += $1}} END {{print ct/total}}')        
