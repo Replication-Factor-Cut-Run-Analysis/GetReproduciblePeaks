@@ -92,7 +92,7 @@ rule get_set_min_read_counts:
     params:
         #tx_count_files=CountFiles_dict_from_set("{setOfInterest}")[0],
         tx_count_files = lambda wildcards: CountFiles_dict_from_set(wildcards.setOfInterest)[0],
-        in_count_files=print(CountFiles_dict_from_set("testSet")[1]),
+        in_count_files= lambda wildcards: CountFiles_dict_from_set(wildcards.setOfInterest)[1],
     envmodules:
         config["samtools"]
     shell:
