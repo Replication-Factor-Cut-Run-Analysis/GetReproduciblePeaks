@@ -45,13 +45,11 @@ def In_BamFiles_dict_from_samples(sample):
 rule all:
     input:
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
-        #expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
-        #expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
+        expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
+        expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
         
-        
-
 # merge technical replicates
 rule merge_technical_replicates:
     params:
@@ -92,7 +90,8 @@ rule call_narrow_peaks_with_macs2:
 # write read counts for each bam to a file
 rule write_read_counts:
     input:
-        unpack(Bam_dict_from_sample)   # <--- we need to wrap our input function inside a special Snakemake function called unpack() which turns the dict into a collection of named inputs
+        tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
+        in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
     output:
         treatmentCountFile="results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt",
         inputCountFile="results/mappedReadCounts/{sample}_input_mappedReadCounts.txt",
@@ -100,8 +99,8 @@ rule write_read_counts:
         config["samtools"]
     shell:
         """
-        samtools idxstats {input.txBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.treatmentCountFile}
-        samtools idxstats {input.inBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.inputCountFile}
+        samtools idxstats {input.tx_merged_bam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.treatmentCountFile}
+        samtools idxstats {input.in_merged_bam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.inputCountFile}
         """
  
 # downsample read counts to minimum of each set
