@@ -89,7 +89,7 @@ rule get_set_min_read_counts:
         treatmentMinCountFile="results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt",
         inputMinCountFile="results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt",
     params:
-        tx_count_files="CountFiles_dict_from_set({setOfInterest})[0]",
+        tx_count_files=CountFiles_dict_from_set("{setOfInterest}")[0],
         #tx_count_files = lambda w: CountFiles_dict_from_set({})[0],
         in_count_files=print(CountFiles_dict_from_set("testSet")[1]),
     envmodules:
