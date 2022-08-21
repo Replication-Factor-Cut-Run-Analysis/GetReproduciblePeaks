@@ -27,7 +27,6 @@ def CountFiles_dict_from_set(setOfInterest):
   in_counts_files_list = expand('results/mappedReadCounts/{sample}_input_mappedReadCounts.txt', sample = sample_lst)
   tx_string = ' '.join([str(item) for item in tx_counts_files_list])
   in_string = ' '.join([str(item) for item in in_counts_files_list])
-  #return ["test1","test2"]
   return [tx_string, in_string]
   
 
@@ -90,7 +89,6 @@ rule get_set_min_read_counts:
         treatmentMinCountFile="results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt",
         inputMinCountFile="results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt",
     params:
-        #tx_count_files=CountFiles_dict_from_set("{setOfInterest}")[0],
         tx_count_files = lambda wildcards: CountFiles_dict_from_set(wildcards.setOfInterest)[0],
         in_count_files= lambda wildcards: CountFiles_dict_from_set(wildcards.setOfInterest)[1],
     envmodules:
