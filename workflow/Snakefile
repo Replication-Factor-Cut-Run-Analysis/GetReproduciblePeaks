@@ -30,8 +30,6 @@ def CountFiles_dict_from_set(setOfInterest):
   return [tx_string, in_string]
   
 
-
-
 ##################################################################
 ##                           rules                              ##
 ##################################################################
@@ -45,8 +43,6 @@ rule all:
         expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
 
-
-        
 # call narrow peaks with macs2
 rule call_narrow_peaks_with_macs2:
     input:
@@ -80,11 +76,12 @@ rule write_read_counts:
         samtools idxstats {input.inBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.inputCountFile}
         """
  
-# get min read counts for each set
-rule get_set_min_read_counts:
+# downsample read counts to minimum of each set
+rule downsample_min_read_counts:
     input:
-        expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
-        expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
+        bamFiles=unpack(Bam_dict_from_sample),
+        tx_counts=expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
+        in_counts=expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
     output:
         treatmentMinCountFile="results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt",
         inputMinCountFile="results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt",
@@ -95,6 +92,10 @@ rule get_set_min_read_counts:
         config["samtools"]
     shell:
         """
-        cat {params.tx_count_files} | sort -n | head -1 > {output.treatmentMinCountFile}
-        cat {params.in_count_files} | sort -n | head -1 > {output.inputMinCountFile}
+        tx_min=$(cat {params.tx_count_files} | sort -n | head -1)
+        in_min=$(cat {params.tx_count_files} | sort -n | head -1)
+        echo $tx_min > {output.treatmentMinCountFile}
+        echo $in_min > {output.inputMinCountFile}
         """
+
+
