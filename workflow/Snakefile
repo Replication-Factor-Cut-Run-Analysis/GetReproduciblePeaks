@@ -90,11 +90,12 @@ rule get_set_min_read_counts:
         treatmentMinCountFile="results/minMappedReadCounts/{set}_treated_minMappedReadCounts.txt",
         inputMinCountFile="results/minMappedReadCounts/{set}_input_minMappedReadCounts.txt",
     params:
-        count_files=CountFiles_dict_from_set({set})
+        tx_count_files=CountFiles_dict_from_set({set})["txbam"]
+        in_count_files=CountFiles_dict_from_set({set})["inbam"]
     envmodules:
         config["samtools"]
     shell:
         """
-        cat {params.count_files}[txBam] > {output.treatmentMinCountFile}
-        cat {params.count_files}[inBam] > {output.inputMinCountFile}
+        cat {params.tx_count_files} > {output.treatmentMinCountFile}
+        cat {params.in_count_files} > {output.inputMinCountFile}
         """
