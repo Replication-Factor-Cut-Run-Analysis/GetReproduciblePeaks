@@ -26,7 +26,8 @@ def CountFiles_dict_from_set(setOfInterest):
   in_counts_files_list = expand('results/mappedReadCounts/{sample}_input_mappedReadCounts.txt', sample = sample_lst)
   tx_string = ' '.join([str(item) for item in tx_counts_files_list])
   in_string = ' '.join([str(item) for item in in_counts_files_list])
-  return [tx_string, in_string]
+  return["test1","test2"]
+  #return [tx_string, in_string]
   
 
 
