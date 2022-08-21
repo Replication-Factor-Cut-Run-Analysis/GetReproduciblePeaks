@@ -17,11 +17,13 @@ def Bam_dict_from_sample(wildcards):
     "txBam": samples_table.loc[wildcards.sample, "treatmentBam"],
     "inBam": samples_table.loc[wildcards.sample, "inputBam"]
   }
-## this still needs work
-# return filenames/paths joined (ie space-separated) for a set of interest
+# function that returns dict of filenames/paths joined (ie space-separated) for a set of interest
 def CountFiles_dict_from_set(set_of_interest):
   sample_lst = samples_table.loc[samples_table["set"] == set_of_interest,"sample"].to_list()
-  sample_string = ' '.join([str(item) for item in tx_lst])
+  tx_counts_files_list = expand('results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt', sample = sample_lst)
+  in_counts_files_list = expand('results/mappedReadCounts/{sample}_input_mappedReadCounts.txt', sample = sample_lst)
+  tx_string = ' '.join([str(item) for item in tx_counts_files_list])
+  in_string = ' '.join([str(item) for item in in_counts_files_list])
   return {
     "txBam": tx_string,
     "inBam": in_string
@@ -60,7 +62,7 @@ rule call_narrow_peaks_with_macs2:
         macs2 callpeak -t {input.txBam} -c {input.inBam} -f BAMPE -g {params.effective_genome_size} -n {params.sample_name}_{params.minimum_FDR_cutoff} -q {params.minimum_FDR_cutoff} --outdir results/macs2_normalPeaks/
         """
 
- # write read counts for each bam to a file
+# write read counts for each bam to a file
 rule write_read_counts:
     input:
         unpack(Bam_dict_from_sample)   # <--- we need to wrap our input function inside a special Snakemake function called unpack() which turns the dict into a collection of named inputs
@@ -73,4 +75,19 @@ rule write_read_counts:
         """
         samtools idxstats {input.txBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.treatmentCountFile}
         samtools idxstats {input.inBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.inputCountFile}
+        """
+
+# get min read counts for each set
+rule get_set_min_read_counts:
+    input:
+        unpack(CountFiles_dict_from_set)   # <--- we need to wrap our input function inside a special Snakemake function called unpack() which turns the dict into a collection of named inputs
+    output:
+        treatmentMinCountFile="results/minMappedReadCounts/{sample}_treated_minMappedReadCounts.txt",
+        inputMinCountFile="results/minMappedReadCounts/{sample}_input_minMappedReadCounts.txt",
+    envmodules:
+        config["samtools"]
+    shell:
+        """
+        cat {input.txBam} > {output.treatmentMinCountFile}
+        cat {input.inBam} > {output.inputMinCountFile}
         """
