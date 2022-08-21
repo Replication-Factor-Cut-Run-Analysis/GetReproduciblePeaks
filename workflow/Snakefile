@@ -43,8 +43,8 @@ rule all:
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
-        #expand("results/minMappedReadCounts/{set}_treated_minMappedReadCounts.txt", set = sets_lst),
-        #expand("results/minMappedReadCounts/{set}_input_minMappedReadCounts.txt", set = sets_lst),
+        expand("results/minMappedReadCounts/{set}_treated_minMappedReadCounts.txt", set = sets_lst),
+        expand("results/minMappedReadCounts/{set}_input_minMappedReadCounts.txt", set = sets_lst),
 
 
         
@@ -79,4 +79,22 @@ rule write_read_counts:
         """
         samtools idxstats {input.txBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.treatmentCountFile}
         samtools idxstats {input.inBam} | awk -F '\t' '{{s+=$3}}END{{print s}}' > {output.inputCountFile}
+        """
+ 
+# get min read counts for each set
+rule get_set_min_read_counts:
+    input:
+        expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
+        expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
+    output:
+        treatmentMinCountFile="results/minMappedReadCounts/{set}_treated_minMappedReadCounts.txt",
+        inputMinCountFile="results/minMappedReadCounts/{set}_input_minMappedReadCounts.txt",
+    params:
+        count_files=unpack(CountFiles_dict_from_set)
+    envmodules:
+        config["samtools"]
+    shell:
+        """
+        cat {params.count_files.txBam} > {output.treatmentMinCountFile}
+        cat {params.count_files.inBam} > {output.inputMinCountFile}
         """
