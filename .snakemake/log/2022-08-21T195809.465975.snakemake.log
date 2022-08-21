@@ -1,0 +1,3 @@
+IndexError in line 92 of /s/sansam-lab/PeakAnalyzer/workflow/Snakefile:
+list index out of range
+  File "/s/sansam-lab/PeakAnalyzer/workflow/Snakefile", line 92, in <module>

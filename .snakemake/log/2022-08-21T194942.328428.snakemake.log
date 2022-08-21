@@ -1,0 +1,3 @@
+KeyError in line 93 of /s/sansam-lab/PeakAnalyzer/workflow/Snakefile:
+'txbam'
+  File "/s/sansam-lab/PeakAnalyzer/workflow/Snakefile", line 93, in <module>

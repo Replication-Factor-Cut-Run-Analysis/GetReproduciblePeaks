@@ -1,0 +1,11 @@
+Building DAG of jobs...
+InputFunctionException in line 86 of /s/sansam-lab/PeakAnalyzer/workflow/Snakefile:
+Error:
+  ValueError: Lengths must match to compare
+Wildcards:
+  sample=testSet
+Traceback:
+  File "/s/sansam-lab/PeakAnalyzer/workflow/Snakefile", line 24, in CountFiles_dict_from_set
+  File "/usr/local/analysis/pandas/1.0.3/venv/lib/python3.7/site-packages/pandas/core/ops/common.py", line 64, in new_method
+  File "/usr/local/analysis/pandas/1.0.3/venv/lib/python3.7/site-packages/pandas/core/ops/__init__.py", line 529, in wrapper
+  File "/usr/local/analysis/pandas/1.0.3/venv/lib/python3.7/site-packages/pandas/core/ops/array_ops.py", line 234, in comparison_op

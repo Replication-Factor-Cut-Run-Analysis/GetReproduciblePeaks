@@ -1,0 +1,20 @@
+Building DAG of jobs...
+Job stats:
+job                        count    min threads    max threads
+-----------------------  -------  -------------  -------------
+all                            1              1              1
+get_set_min_read_counts        1              1              1
+total                          2              1              1
+
+
+[Sun Aug 21 19:38:45 2022]
+rule get_set_min_read_counts:
+    input: results/mappedReadCounts/testData1_treated_mappedReadCounts.txt, results/mappedReadCounts/testData2_treated_mappedReadCounts.txt, results/mappedReadCounts/testData3_treated_mappedReadCounts.txt, results/mappedReadCounts/testData1_input_mappedReadCounts.txt, results/mappedReadCounts/testData2_input_mappedReadCounts.txt, results/mappedReadCounts/testData3_input_mappedReadCounts.txt
+    output: results/minMappedReadCounts/testSet_treated_minMappedReadCounts.txt, results/minMappedReadCounts/testSet_input_minMappedReadCounts.txt
+    jobid: 7
+    reason: Missing output files: results/minMappedReadCounts/testSet_input_minMappedReadCounts.txt, results/minMappedReadCounts/testSet_treated_minMappedReadCounts.txt
+    wildcards: set=testSet
+    resources: tmpdir=/tmp
+
+WorkflowError:
+unpack() is not allowed with params. Simply return a dictionary which can be directly .used, e.g. via {params[mykey]}.

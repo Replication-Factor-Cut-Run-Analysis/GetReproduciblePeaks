@@ -1,0 +1,8 @@
+Building DAG of jobs...
+InputFunctionException in line 80 of /s/sansam-lab/PeakAnalyzer_delete/workflow/Snakefile:
+Error:
+  AttributeError: 'Wildcards' object has no attribute 'sample'
+Wildcards:
+  setOfInterest=testSet
+Traceback:
+  File "/s/sansam-lab/PeakAnalyzer_delete/workflow/Snakefile", line 20, in Bam_dict_from_sample

@@ -1,0 +1,3 @@
+NameError in line 91 of /s/sansam-lab/PeakAnalyzer/workflow/Snakefile:
+name 'setOfInterest' is not defined
+  File "/s/sansam-lab/PeakAnalyzer/workflow/Snakefile", line 91, in <module>

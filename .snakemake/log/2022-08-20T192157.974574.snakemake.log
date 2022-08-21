@@ -1,0 +1,63 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cluster nodes: 999
+Job stats:
+job                  count    min threads    max threads
+-----------------  -------  -------------  -------------
+all                      1              1              1
+write_read_counts        3              1              1
+total                    4              1              1
+
+Select jobs to execute...
+
+[Sat Aug 20 19:21:59 2022]
+rule write_read_counts:
+    input: resources/testData/test1.bam, resources/testData/input1.bam
+    output: results/mappedReadCounts/testData1_treated_mappedReadCounts.txt, results/mappedReadCounts/testData1_input_mappedReadCounts.txt
+    jobid: 4
+    wildcards: sample=testData1
+    resources: tmpdir=/tmp
+
+Submitted job 4 with external jobid 'Submitted batch job 1547693'.
+
+[Sat Aug 20 19:21:59 2022]
+rule write_read_counts:
+    input: resources/testData/test2.bam, resources/testData/input2.bam
+    output: results/mappedReadCounts/testData2_treated_mappedReadCounts.txt, results/mappedReadCounts/testData2_input_mappedReadCounts.txt
+    jobid: 5
+    wildcards: sample=testData2
+    resources: tmpdir=/tmp
+
+Submitted job 5 with external jobid 'Submitted batch job 1547694'.
+
+[Sat Aug 20 19:21:59 2022]
+rule write_read_counts:
+    input: resources/testData/test3.bam, resources/testData/input3.bam
+    output: results/mappedReadCounts/testData3_treated_mappedReadCounts.txt, results/mappedReadCounts/testData3_input_mappedReadCounts.txt
+    jobid: 6
+    wildcards: sample=testData3
+    resources: tmpdir=/tmp
+
+Submitted job 6 with external jobid 'Submitted batch job 1547695'.
+Waiting at most 100 seconds for missing files.
+[Sat Aug 20 19:22:57 2022]
+Finished job 4.
+1 of 4 steps (25%) done
+[Sat Aug 20 19:22:57 2022]
+Finished job 5.
+2 of 4 steps (50%) done
+[Sat Aug 20 19:22:57 2022]
+Finished job 6.
+3 of 4 steps (75%) done
+Select jobs to execute...
+
+[Sat Aug 20 19:22:57 2022]
+localrule all:
+    input: results/macs2_normalPeaks/testData1_0.05_peaks.narrowPeak, results/macs2_normalPeaks/testData2_0.05_peaks.narrowPeak, results/macs2_normalPeaks/testData3_0.05_peaks.narrowPeak, results/mappedReadCounts/testData1_treated_mappedReadCounts.txt, results/mappedReadCounts/testData2_treated_mappedReadCounts.txt, results/mappedReadCounts/testData3_treated_mappedReadCounts.txt, results/mappedReadCounts/testData1_input_mappedReadCounts.txt, results/mappedReadCounts/testData2_input_mappedReadCounts.txt, results/mappedReadCounts/testData3_input_mappedReadCounts.txt
+    jobid: 0
+    resources: tmpdir=/tmp
+
+[Sat Aug 20 19:22:57 2022]
+Finished job 0.
+4 of 4 steps (100%) done
+Complete log: /s/sansam-lab/PeakAnalyzer/.snakemake/log/2022-08-20T192157.974574.snakemake.log

@@ -1,0 +1,2 @@
+SyntaxError in line 54 of /s/sansam-lab/PeakAnalyzer/workflow/Snakefile:
+Expected name or colon after rule or checkpoint keyword. (Snakefile, line 54)

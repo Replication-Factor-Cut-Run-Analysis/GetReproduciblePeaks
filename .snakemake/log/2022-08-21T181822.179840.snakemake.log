@@ -1,0 +1,5 @@
+Building DAG of jobs...
+MissingInputException in line 32 of /s/sansam-lab/PeakAnalyzer/workflow/Snakefile:
+Missing input files for rule all:
+results/minMappedReadCounts/testSet_input_minMappedReadCounts.txt
+results/minMappedReadCounts/testSet_treated_minMappedReadCounts.txt

@@ -1,0 +1,6 @@
+From https://github.com/sansamcl/PeakAnalyzer
+ * branch            HEAD       -> FETCH_HEAD
+Updating eea5e3b..1a9a740
+Fast-forward
+ workflow/Snakefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)

@@ -1,0 +1,44 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cluster nodes: 999
+Job stats:
+job                             count    min threads    max threads
+----------------------------  -------  -------------  -------------
+all                                 1              1              1
+call_narrow_peaks_with_macs2        3              1              1
+total                               4              1              1
+
+Select jobs to execute...
+
+[Sat Aug 20 18:37:51 2022]
+rule call_narrow_peaks_with_macs2:
+    input: resources/testData/test1.bam, resources/testData/input1.bam
+    output: results/macs2_normalPeaks/testData1_0.05_peaks.narrowPeak
+    log: results/logs/snakelogs/call_narrow_peaks_with_macs2.testData1_q0.05.log
+    jobid: 1
+    wildcards: sample=testData1
+    resources: tmpdir=/tmp
+
+Submitted job 1 with external jobid 'Submitted batch job 1547680'.
+
+[Sat Aug 20 18:37:51 2022]
+rule call_narrow_peaks_with_macs2:
+    input: resources/testData/test3.bam, resources/testData/input3.bam
+    output: results/macs2_normalPeaks/testData3_0.05_peaks.narrowPeak
+    log: results/logs/snakelogs/call_narrow_peaks_with_macs2.testData3_q0.05.log
+    jobid: 3
+    wildcards: sample=testData3
+    resources: tmpdir=/tmp
+
+Submitted job 3 with external jobid 'Submitted batch job 1547681'.
+
+[Sat Aug 20 18:37:51 2022]
+rule call_narrow_peaks_with_macs2:
+    input: resources/testData/test2.bam, resources/testData/input2.bam
+    output: results/macs2_normalPeaks/testData2_0.05_peaks.narrowPeak
+    log: results/logs/snakelogs/call_narrow_peaks_with_macs2.testData2_q0.05.log
+    jobid: 2
+    wildcards: sample=testData2
+    resources: tmpdir=/tmp
+
+Submitted job 2 with external jobid 'Submitted batch job 1547682'.
