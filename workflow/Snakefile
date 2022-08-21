@@ -89,7 +89,7 @@ rule get_set_min_read_counts:
         treatmentMinCountFile="results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt",
         inputMinCountFile="results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt",
     params:
-        tx_count_files=print(CountFiles_dict_from_set("testSet")[0]),
+        tx_count_files=CountFiles_dict_from_set("testSet")[0],
         #tx_count_files = lambda w: config["heatmap-{}".format(w.condition)][k],
         in_count_files=print(CountFiles_dict_from_set("testSet")[1]),
     envmodules:
