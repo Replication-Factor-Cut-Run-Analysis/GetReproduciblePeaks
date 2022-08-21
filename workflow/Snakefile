@@ -51,7 +51,7 @@ rule all:
         expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
 
 # merge technical replicates
-rule merge_technical_replicates
+rule merge_technical_replicates:
     params:
         tx_technical_replicates = lambda wildcards: Tx_BamFiles_dict_from_samples(wildcards.sample),
         in_technical_replicates = lambda wildcards: In_BamFiles_dict_from_samples(wildcards.sample),
