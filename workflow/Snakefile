@@ -127,8 +127,8 @@ rule downsample_min_read_counts:
           samtools view -@ 8 -b -s $fraction $2 > $3
         }}
         
-        downSampleBam $tx_min {input.tx_merged_bam} {output.tx_downsampled_bam}
-        downSampleBam $in_min {input.in_merged_bam} {output.in_downsampled_bam}
+        downSampleBam ${{tx_min}} {input.tx_merged_bam} {output.tx_downsampled_bam}
+        downSampleBam ${{in_min}} {input.in_merged_bam} {output.in_downsampled_bam}
         """
 
 
