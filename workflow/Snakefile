@@ -11,6 +11,8 @@ samples_table = pd.read_csv(config["samples_csv"]).set_index("sample", drop=Fals
 samples_table = samples_table.applymap(str)
 # make a samples list
 samples_lst = samples_table['sample'].to_list()
+# make sets list
+sets_lst = list(set(samples_table['set'].to_list()))
 # treatmentBam filename input function definition set to Python dictionary
 def Bam_dict_from_sample(wildcards):
   return {
@@ -42,6 +44,9 @@ rule all:
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample = samples_lst),
         expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
+        expand("results/minMappedReadCounts/{sample}_treated_minMappedReadCounts.txt", sample = sets_lst),
+        expand("results/minMappedReadCounts/{sample}_input_minMappedReadCounts.txt", sample = sets_lst),
+
 
         
 # call narrow peaks with macs2
