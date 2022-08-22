@@ -242,21 +242,26 @@ rule make_bed_of_reproducible_summits:
         sort-bed {input.peaks} > {input.peaks}_sorted.bed
         bedops --element-of 1 {input.summits}_sorted.bed {input.peaks}_sorted.bed > {output}
         """
-        
+
+## This rule should be modified in the future to accomodate scale factors calculated from spike-ins
 # make normalized bigwigs using bamcompare
-#rule make_normalized_bigwigs_with_bamcompare:
-#    input:
-#        "results/mergedPeakOverlaps/{sample}.rds",
-#    output:
-#        "results/eulerPlot/{sample}_eulerPlot.rds",
-#    params:
-#        config["EulerFontSize"],
-#        config["EulerColors"],
-#    envmodules:
-#        config["R"],
-#        config["Bioconductor"],
-#    script:
-#        "scripts/makeEulerOfOverlappingPeaks.R"
+rule make_normalized_bigwigs_with_bamcompare:
+    input:
+        tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
+        in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
+    output:
+        "results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
+    params:
+        config["scaleFactorsMethod"],
+        config["bamcompareOperation"],
+        config["binSize"],
+        config["blackListFileName"],
+    envmodules:
+        config["deeptools"],
+    shell:
+        """
+        bamCompare --centerReads --numberOfProcessors 12 -b1 {input.} -b2 {input} -o {output.}
+        """
 
 # make heat plot across peaks
 
