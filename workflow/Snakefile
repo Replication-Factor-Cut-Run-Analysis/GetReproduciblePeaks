@@ -106,7 +106,6 @@ rule write_read_counts:
         """
  
 # downsample read counts to minimum
-### need to add if then statement to avoid samtools view when the fraction =1
 rule downsample_min_read_counts:
     input:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
@@ -137,4 +136,34 @@ rule downsample_min_read_counts:
         downSampleBam ${{in_min}} {input.in_merged_bam} {output.in_downsampled_bam}
         """
 
+# merge downsampled samples
+rule downsample_min_read_counts:
+    input:
+        tx_downsampled_bam = "results/downSampledBams/{sample}_tx.bam",
+        in_downsampled_bam = "results/downSampledBams/{sample}_in.bam",
+    output:
+        tx_merged_downsampled_bam = "results/mergedDownSampledBams/" + str(config["sampleName"]) + "_tx.bam",
+        in_merged_downsampled_bam = "results/mergedDownSampledBams/" + str(config["sampleName"]) + "_in.bam",
+    envmodules:
+        config["samtools"]
+    shell:
+        """
+        tx_min=$(cat {input.tx_counts} | sort -n | head -1)
+        in_min=$(cat {input.in_counts} | sort -n | head -1)
+        
+        downSampleBam () {{
+          fraction=$(samtools idxstats $2 | cut -f3 | awk -v ct=$1 'BEGIN {{total=0}} {{total += $1}} END {{print ct/total}}')
+          if $fraction < 1
+          then
+          samtools view -@ 8 -b -s $fraction $2 > $3
+          else
+          cp $2 $3
+          fi     
+        }}
+        
+        downSampleBam ${{tx_min}} {input.tx_merged_bam} {output.tx_downsampled_bam}
+        downSampleBam ${{in_min}} {input.in_merged_bam} {output.in_downsampled_bam}
+        """
+        
+        
 
