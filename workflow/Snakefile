@@ -225,6 +225,24 @@ rule make_bed_of_reproducible_peaks:
     script:
         "scripts/make_bed_of_reproducible_peaks.R"
         
+# make bed file of reproducible summits
+rule make_bed_of_reproducible_summits:
+    input:
+        peaks = "results/reproduciblePeaksBed/{sample}_reproduciblePeaks.bed",
+        summits = "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_summits.bed",
+    output:
+        "results/reproduciblePeaksSummits/{sample}_reproducibleSummits.bed",
+    params:
+        config["minNumberOfSampleOverlaps"],
+    envmodules:
+        config["bedops"],
+    shell:
+        """
+        sort-bed {input.summits} > {input.summits}_sorted.bed
+        sort-bed {input.peaks} > {input.peaks}_sorted.bed
+        bedops --element-of 1 {input.summits}_sorted.bed {input.peaks}_sorted.bed > {ouput}
+        """
+        
 # make normalized bigwigs using bamcompare
 #rule make_normalized_bigwigs_with_bamcompare:
 #    input:
