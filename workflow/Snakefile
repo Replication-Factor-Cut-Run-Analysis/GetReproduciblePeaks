@@ -279,6 +279,7 @@ rule make_coverage_matrix_across_peaks:
         summits = "results/reproduciblePeaksSummits/{sample}_reproducibleSummits.bed",
     output:
         mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_readCountsAcrossSummits.tab",
+        gz = "results/matrixOfReadsAcrossPeakSummits/{sample}_readCountsAcrossSummits.gz",
     params:
         readsBigWigs = ' '.join(expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",sample = set(samples_lst))),
         brl=config["beforeRegionStartLength"],
@@ -290,5 +291,5 @@ rule make_coverage_matrix_across_peaks:
         config["deeptools"],
     shell:
         """
-        computeMatrix reference-point -a {params.arl} -b {params.brl} --numberOfProcessors {params.nop} --smartLabels --outFileNameMatrix {output.mx} -S {params.readsBigWigs} -R {input.summits}
+        computeMatrix reference-point --outFileName {output.gz} -a {params.arl} -b {params.brl} --numberOfProcessors {params.nop} --smartLabels --outFileNameMatrix {output.mx} -S {params.readsBigWigs} -R {input.summits}
         """
