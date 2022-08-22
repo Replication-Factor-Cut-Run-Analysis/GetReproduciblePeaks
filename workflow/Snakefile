@@ -181,8 +181,8 @@ rule call_narrow_peaks_with_macs2_on_merged:
         macs2 callpeak -t {input.tx_merged_downsampled_bam} -c {input.in_merged_downsampled_bam} -f BAMPE -g {params.effective_genome_size} -n {params.sample_name}_{params.minimum_FDR_cutoff} -q {params.minimum_FDR_cutoff} --outdir results/macs2_normalPeaks_merged/
         """
         
- # get overlaps between peaks of merged sample and individual samples
- rule report_peaks_overlapping_with_merged:
+# get overlaps between peaks of merged sample and individual samples
+rule report_peaks_overlapping_with_merged:
     input:
         "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
     output:
