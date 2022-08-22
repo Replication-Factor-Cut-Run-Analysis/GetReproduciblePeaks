@@ -29,7 +29,7 @@ bamcompareOperation: "log2"
 ## choose an integer for bp
 binSize: 50
 ## path to blacklist bed file
-blackListFileName: "resources/blackLists/hg38-blacklist.v2.bed
+blackListFileName: "resources/blackLists/hg38-blacklist.v2.bed"
 ## read processing options; all integers
 minFragmentLength: 50
 maxFragmentLength: 1000
