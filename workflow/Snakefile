@@ -194,6 +194,20 @@ rule report_peaks_overlapping_with_merged:
     script:
         "scripts/reportOverlappingPeaks.R"
 
+# make euler plot
+rule make_euler_plot_of_overlaps_with_merged:
+    input:
+        "results/mergedPeakOverlaps/{sample}.rds",
+    output:
+        "results/eulerPlot/{sample}_eulerPlot.rds",
+    params:
+        config["EulerFontSize"],
+        config["EulerColors"],
+    envmodules:
+        config["R"],
+        config["Bioconductor"],
+    script:
+        "scripts/makeEulerOfOverlappingPeaks.R"
   
   
 
