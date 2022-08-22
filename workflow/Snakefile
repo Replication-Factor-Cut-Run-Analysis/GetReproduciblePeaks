@@ -156,7 +156,9 @@ rule merged_downsampled_bams:
     shell:
         """
         samtools merge -@ 8 {output.tx_merged_downsampled_bam} {params.tx_bams}
+        samtools index -@ 8 {output.tx_merged_downsampled_bam}
         samtools merge -@ 8 {output.in_merged_downsampled_bam} {params.in_bams}
+        samtools index -@ 8 {output.in_merged_downsampled_bam}
         """
 
 ## this didn't run.  I need to check the log file
