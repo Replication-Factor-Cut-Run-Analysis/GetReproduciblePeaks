@@ -13,6 +13,8 @@ blacklist_file: "resources/hg38-blacklist.v2.bed"
 macs2_minimum_FDR_cutoff: 0.05
 # macs2 "broad" options
 macs2_broad_minimum_FDR_cutoff: 0.1
+# euler plot options
+
 #################################################################
 ##                     Environment Modules                     ##
 #################################################################
