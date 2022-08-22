@@ -27,6 +27,7 @@ minNumberOfSampleOverlaps: 2
 #################################################################
 # These will be specific to your cluster                        #
 #################################################################
+deeptools: "deeptools/3.4.3"
 bedops: "bedops/2.4.3"
 macs2: "macs2/2.2.7.1"
 fastp: "fastp/0.23.2"
