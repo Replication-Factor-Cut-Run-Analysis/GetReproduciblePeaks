@@ -21,7 +21,7 @@ EulerColors: "red,green,blue"
 # Reproducible peak options
 ## Number of samples in which peak must be present
 minNumberOfSampleOverlaps: 2
-# options for background normalizing or subtracting with bamcompare
+# options for background normalizing or subtracting with bamcompare and computeMatrix
 ## choose from "readCount", "SES", or "None"
 scaleFactorsMethod: "None"
 ## choose from "RPKM", "CPM", "BPM", "None"
@@ -40,7 +40,9 @@ maxFragmentLength: 1000
 minMappingQuality: 20
 ## number of processors
 numberOfProcessors: 8
-
+## before or after region start length for count matrix; integer bp
+beforeRegionStartLength: 3000
+afterRegionStartLength: 3000
 
 #################################################################
 ##                     Environment Modules                     ##
