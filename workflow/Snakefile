@@ -271,5 +271,22 @@ rule make_normalized_bigwigs_with_bamcompare:
         bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --operation {params.bco} --binSize {params.bns} --blackListFileName {params.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
         """
 
-# make heat plot across peaks
-
+# make coverage matrix across reproducible peak summits
+rule make_coverage_matrix_across_peaks:
+    input:
+        summits = "results/reproduciblePeaksSummits/{sample}_reproducibleSummits.bed",
+    output:
+        mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_readCountsAcrossSummits.tab",
+    params:
+        readsBigWigs = ' '.join(expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",sample = set(samples_lst))),
+        brl=config["beforeRegionStartLength"],
+        arl=config["afterRegionStartLength"],
+        bns=config["binSize"],
+        bln=config["blackListFileName"],
+        nop=config["numberOfProcessors"],
+    envmodules:
+        config["deeptools"],
+    shell:
+        """
+        computeMatrix reference-point -a {params.arl} -b {params.brl} --numberOfProcessors {params.nop} --smartLabels --outFileNameMatrix {output.mx} -S {params.readsBigWigs} -R {input.summits}
+        """
