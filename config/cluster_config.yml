@@ -55,3 +55,12 @@ report_peaks_overlapping_with_merged:
     name: "{rule}.{wildcards.sample}"
     output: results/logs/{rule}.{wildcards.sample}.slurm-%x.%A.%a.log
     error: results/errors/{rule}.{wildcards.sample}.slurm-%x.%A.%a.err
+    
+make_euler_plot_of_overlaps_with_merged:
+    cpus-per-task: 2
+    mem: 16G
+    cores: 2
+    name: "{rule}.{wildcards.sample}"
+    output: results/logs/{rule}.{wildcards.sample}.slurm-%x.%A.%a.log
+    error: results/errors/{rule}.{wildcards.sample}.slurm-%x.%A.%a.err
+    
