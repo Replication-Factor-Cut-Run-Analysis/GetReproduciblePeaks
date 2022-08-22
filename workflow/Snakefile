@@ -54,6 +54,7 @@ rule all:
         "results/macs2_normalPeaks_merged/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
         "results/mergedPeakOverlaps/" + str(config["experimentName"]) + ".rds",
         "results/eulerPlot/" + str(config["experimentName"]) + "_eulerPlot.rds",
+        "results/reproduciblePeaksBed/" + str(config["experimentName"]) + "_reproduciblePeaks.bed",
 
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
@@ -209,6 +210,35 @@ rule make_euler_plot_of_overlaps_with_merged:
         config["Bioconductor"],
     script:
         "scripts/makeEulerOfOverlappingPeaks.R"
-  
+
+# make bed file of reproducible peaks
+rule make_bed_of_reproducible_peaks:
+    input:
+        "results/mergedPeakOverlaps/{sample}.rds",
+    output:
+        "results/reproduciblePeaksBed/{sample}_reproduciblePeaks.bed",
+    params:
+        config["minNumberOfSampleOverlaps"],
+    envmodules:
+        config["R"],
+        config["Bioconductor"],
+    script:
+        "scripts/make_bed_of_reproducible_peaks.R"
+        
+# make normalized bigwigs using bamcompare
+#rule make_normalized_bigwigs_with_bamcompare:
+#    input:
+#        "results/mergedPeakOverlaps/{sample}.rds",
+#    output:
+#        "results/eulerPlot/{sample}_eulerPlot.rds",
+#    params:
+#        config["EulerFontSize"],
+#        config["EulerColors"],
+#    envmodules:
+#        config["R"],
+#        config["Bioconductor"],
+#    script:
+#        "scripts/makeEulerOfOverlappingPeaks.R"
+
 # make heat plot across peaks
 
