@@ -193,7 +193,7 @@ rule report_peaks_overlapping_with_merged:
         config["R"],
         config["Bioconductor"],
     script:
-        scripts/reportOverlappingPeaks.R
+        "scripts/reportOverlappingPeaks.R"
 
   
   
