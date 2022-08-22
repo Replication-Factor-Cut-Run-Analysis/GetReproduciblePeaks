@@ -55,7 +55,7 @@ rule all:
         "results/mergedPeakOverlaps/" + str(config["experimentName"]) + ".rds",
         "results/eulerPlot/" + str(config["experimentName"]) + "_eulerPlot.rds",
         "results/reproduciblePeaksBed/" + str(config["experimentName"]) + "_reproduciblePeaks.bed",
-
+        "results/reproduciblePeaksSummits/" + str(config["experimentName"]) + "_reproducibleSummits.bed",
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
         
