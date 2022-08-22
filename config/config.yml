@@ -24,8 +24,8 @@ minNumberOfSampleOverlaps: 2
 # options for background normalizing or subtracting with bamcompare
 ## choose from "readCount", "SES", or "None"
 scaleFactorsMethod: "None"
-## choose from "RPKM", "CPM", "BPM", "RPGC", "None"
-normalizeUsing: "RPGC"
+## choose from "RPKM", "CPM", "BPM", "None"
+normalizeUsing: "CPM"
 ## choose from "log2", "ratio", "subtract", "add", "mean", "reciprocal_ratio", "first", "second"
 bamcompareOperation: "log2"
 ## choose an integer for bp
