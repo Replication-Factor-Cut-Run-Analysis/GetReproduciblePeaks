@@ -254,7 +254,7 @@ rule make_normalized_bigwigs_with_bamcompare:
         "results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
     params:
         sfm=config["scaleFactorsMethod"],
-        nmu=config["normalizeUsing"]
+        nmu=config["normalizeUsing"],
         bco=config["bamcompareOperation"],
         bns=config["binSize"],
         bln=config["blackListFileName"],
