@@ -49,6 +49,8 @@ rule all:
         expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample = samples_lst),
         expand("results/downSampledBams/{sample}_tx.bam",sample = samples_lst),
         expand("results/downSampledBams/{sample}_in.bam",sample = samples_lst),
+        "results/mergedDownSampledBams/" + str(config["experimentName"]) + "_tx.bam",
+        "results/mergedDownSampledBams/" + str(config["experimentName"]) + "_in.bam",
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
         
