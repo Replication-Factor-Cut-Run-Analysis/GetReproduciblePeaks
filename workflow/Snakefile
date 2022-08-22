@@ -56,6 +56,7 @@ rule all:
         "results/eulerPlot/" + str(config["experimentName"]) + "_eulerPlot.rds",
         "results/reproduciblePeaksBed/" + str(config["experimentName"]) + "_reproduciblePeaks.bed",
         "results/reproduciblePeaksSummits/" + str(config["experimentName"]) + "_reproducibleSummits.bed",
+        expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
         
@@ -252,15 +253,22 @@ rule make_normalized_bigwigs_with_bamcompare:
     output:
         "results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
     params:
-        config["scaleFactorsMethod"],
-        config["bamcompareOperation"],
-        config["binSize"],
-        config["blackListFileName"],
+        sfm=config["scaleFactorsMethod"],
+        nmu=config["normalizeUsing"]
+        bco=config["bamcompareOperation"],
+        bns=config["binSize"],
+        bln=config["blackListFileName"],
+        egs=config["effective_genome_size"],
+        nop=config["numberOfProcessors"],
+        mfl=config["minFragmentLength"],
+        mxl=config["maxFragmentLength"],
+        mmq=config["minMappingQuality"],
+        sml=config["smoothLength"],
     envmodules:
         config["deeptools"],
     shell:
         """
-        bamCompare --centerReads --numberOfProcessors 12 -b1 {input.} -b2 {input} -o {output.}
+        bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --bamcompareOperation {params.bco} --binSize {params.bns} --blackListFileName {params.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
         """
 
 # make heat plot across peaks
