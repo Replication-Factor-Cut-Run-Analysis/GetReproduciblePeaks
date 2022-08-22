@@ -51,6 +51,8 @@ rule all:
         expand("results/downSampledBams/{sample}_in.bam",sample = samples_lst),
         "results/mergedDownSampledBams/" + str(config["experimentName"]) + "_tx.bam",
         "results/mergedDownSampledBams/" + str(config["experimentName"]) + "_in.bam",
+        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
+
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
         
