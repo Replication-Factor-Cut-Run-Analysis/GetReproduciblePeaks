@@ -64,3 +64,12 @@ make_euler_plot_of_overlaps_with_merged:
     output: results/logs/{rule}.{wildcards.sample}.slurm-%x.%A.%a.log
     error: results/errors/{rule}.{wildcards.sample}.slurm-%x.%A.%a.err
     
+make_bed_of_reproducible_peaks:
+    cpus-per-task: 2
+    mem: 16G
+    cores: 2
+    name: "{rule}.{wildcards.sample}"
+    output: results/logs/{rule}.{wildcards.sample}.slurm-%x.%A.%a.log
+    error: results/errors/{rule}.{wildcards.sample}.slurm-%x.%A.%a.err
+    
+    
