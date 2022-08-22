@@ -144,8 +144,8 @@ rule merged_downsampled_bams:
         expand("results/downSampledBams/{sample}_tx.bam",sample = samples_lst),
         expand("results/downSampledBams/{sample}_in.bam",sample = samples_lst),
     output:
-        tx_merged_downsampled_bam = "results/mergedDownSampledBams/" + str(config["experimentName"]) + "_tx.bam",
-        in_merged_downsampled_bam = "results/mergedDownSampledBams/" + str(config["experimentName"]) + "_in.bam",
+        tx_merged_downsampled_bam = "results/mergedDownSampledBams/{experiment}_tx.bam",
+        in_merged_downsampled_bam = "results/mergedDownSampledBams/{experiment}_in.bam",
     params:
         tx_bams=' '.join(expand("results/downSampledBams/{sample}_tx.bam",sample = set(samples_lst))),
         in_bams=' '.join(expand("results/downSampledBams/{sample}_in.bam",sample = set(samples_lst))),
