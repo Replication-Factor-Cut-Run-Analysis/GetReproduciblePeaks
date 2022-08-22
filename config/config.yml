@@ -18,6 +18,10 @@ macs2_broad_minimum_FDR_cutoff: 0.1
 EulerFontSize: 8
 ## colors separated by commas, should be in quotes
 EulerColors: "red,green,blue"
+# Reproducible peak options
+## Number of samples in which peak must be present
+minNumberOfSampleOverlaps: 2
+
 #################################################################
 ##                     Environment Modules                     ##
 #################################################################
