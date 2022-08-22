@@ -23,17 +23,23 @@ EulerColors: "red,green,blue"
 minNumberOfSampleOverlaps: 2
 # options for background normalizing or subtracting with bamcompare
 ## choose from "readCount", "SES", or "None"
-scaleFactorsMethod: "SES"
+scaleFactorsMethod: "None"
+## choose from "RPKM", "CPM", "BPM", "RPGC", "None"
+normalizeUsing: "RPGC"
 ## choose from "log2", "ratio", "subtract", "add", "mean", "reciprocal_ratio", "first", "second"
 bamcompareOperation: "log2"
 ## choose an integer for bp
 binSize: 50
+## smooth length
+smoothLength: 150
 ## path to blacklist bed file
 blackListFileName: "resources/blackLists/hg38-blacklist.v2.bed"
 ## read processing options; all integers
 minFragmentLength: 50
 maxFragmentLength: 1000
 minMappingQuality: 20
+## number of processors
+numberOfProcessors: 8
 
 
 #################################################################
