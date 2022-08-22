@@ -40,3 +40,10 @@ merged_downsampled_bams:
     output: results/logs/{rule}.{wildcards.sample}.slurm-%x.%A.%a.log
     error: results/errors/{rule}.{wildcards.sample}.slurm-%x.%A.%a.err
     
+call_narrow_peaks_with_macs2_on_merged:
+    cpus-per-task: 2
+    mem: 16G
+    cores: 12
+    name: "{rule}.{wildcards.sample}"
+    output: results/logs/{rule}.{wildcards.sample}.slurm-%x.%A.%a.log
+    error: results/errors/{rule}.{wildcards.sample}.slurm-%x.%A.%a.err
