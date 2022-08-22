@@ -124,8 +124,13 @@ rule downsample_min_read_counts:
         in_min=$(cat {input.in_counts} | sort -n | head -1)
         
         downSampleBam () {{
-          fraction=$(samtools idxstats $2 | cut -f3 | awk -v ct=$1 'BEGIN {{total=0}} {{total += $1}} END {{print ct/total}}')        
+          fraction=$(samtools idxstats $2 | cut -f3 | awk -v ct=$1 'BEGIN {{total=0}} {{total += $1}} END {{print ct/total}}')
+          if $fraction < 1
+          then
           samtools view -@ 8 -b -s $fraction $2 > $3
+          else
+          cp $2 $3
+          fi     
         }}
         
         downSampleBam ${{tx_min}} {input.tx_merged_bam} {output.tx_downsampled_bam}
