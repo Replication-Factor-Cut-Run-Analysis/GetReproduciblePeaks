@@ -156,6 +156,25 @@ rule merged_downsampled_bams:
         samtools merge -@ 8 {output.tx_merged_downsampled_bam} {params.tx_bams}
         samtools merge -@ 8 {output.in_merged_downsampled_bam} {params.in_bams}
         """
+  
+# call narrow peaks with macs2 on merged bams
+rule call_narrow_peaks_with_macs2_on_merged:
+    input:
+        tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
+        in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
+    output:
+        "results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak"
+    params:
+        effective_genome_size=config["effective_genome_size"],
+        minimum_FDR_cutoff=str(config["macs2_minimum_FDR_cutoff"]),
+        sample_name="{sample}"
+    envmodules:
+        config["macs2"]
+    log: "results/logs/snakelogs/call_narrow_peaks_with_macs2.{sample}_q" + str(config["macs2_minimum_FDR_cutoff"]) + ".log"
+    shell:
+        """
+        macs2 callpeak -t {input.tx_merged_bam} -c {input.in_merged_bam} -f BAMPE -g {params.effective_genome_size} -n {params.sample_name}_{params.minimum_FDR_cutoff} -q {params.minimum_FDR_cutoff} --outdir results/macs2_normalPeaks/
+        """
         
         
 
