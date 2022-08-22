@@ -268,7 +268,7 @@ rule make_normalized_bigwigs_with_bamcompare:
         config["deeptools"],
     shell:
         """
-        bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --bamcompareOperation {params.bco} --binSize {params.bns} --blackListFileName {params.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
+        bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --operation {params.bco} --binSize {params.bns} --blackListFileName {params.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
         """
 
 # make heat plot across peaks
