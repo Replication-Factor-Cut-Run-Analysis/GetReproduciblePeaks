@@ -57,8 +57,10 @@ rule all:
         "results/reproduciblePeaksBed/" + str(config["experimentName"]) + "_reproduciblePeaks.bed",
         "results/reproduciblePeaksSummits/" + str(config["experimentName"]) + "_reproducibleSummits.bed",
         expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
+        "results/matrixOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_readCountsAcrossSummits.tab",
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
+        
         
 # merge technical replicates
 rule merge_technical_replicates:
