@@ -4,7 +4,7 @@ library(GenomicRanges)
 library(ggplotify)
 library(stringr)
 
-input <- snakemake@input[[1]]
+input <- readRDS(snakemake@input[[1]])
 output <- snakemake@output[[1]]
 eulerFontSize <- snakemake@params[[1]]
 eulerFills <- snakemake@params[[2]]
