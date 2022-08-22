@@ -240,7 +240,7 @@ rule make_bed_of_reproducible_summits:
         """
         sort-bed {input.summits} > {input.summits}_sorted.bed
         sort-bed {input.peaks} > {input.peaks}_sorted.bed
-        bedops --element-of 1 {input.summits}_sorted.bed {input.peaks}_sorted.bed > {ouput}
+        bedops --element-of 1 {input.summits}_sorted.bed {input.peaks}_sorted.bed > {output}
         """
         
 # make normalized bigwigs using bamcompare
