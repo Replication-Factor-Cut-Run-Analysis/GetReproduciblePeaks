@@ -18,6 +18,9 @@ macs2_broad_minimum_FDR_cutoff: 0.1
 EulerFontSize: 8
 ## colors separated by commas, should be in quotes
 EulerColors: "red,green,blue"
+## height and width in inches of Euler pdf made by pipeline
+EulerWidth: 1.5
+EulerHeight: 1
 # Reproducible peak options
 ## Number of samples in which peak must be present
 minNumberOfSampleOverlaps: 2
