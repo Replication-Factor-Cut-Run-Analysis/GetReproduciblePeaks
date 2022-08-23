@@ -175,7 +175,8 @@ rule call_narrow_peaks_with_macs2_on_merged:
         tx_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_tx.bam",
         in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
     output:
-        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak"
+        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
+        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_summits.bed",
     params:
         effective_genome_size=config["effective_genome_size"],
         minimum_FDR_cutoff=str(config["macs2_minimum_FDR_cutoff"]),
