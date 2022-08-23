@@ -46,6 +46,9 @@ afterRegionStartLength: 3000
 # heat plot options
 colorsForHeatPlot: "#543005,#f5f5f5,#003c30"
 heatplotBreaks: "-3,0,3"
+## dimensions of pdf in inches
+pdfWidth: 2
+pdfHeight: 4
 
 #################################################################
 ##                     Environment Modules                     ##
