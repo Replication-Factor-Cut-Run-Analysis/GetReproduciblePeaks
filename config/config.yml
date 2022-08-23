@@ -43,6 +43,9 @@ numberOfProcessors: 8
 ## before or after region start length for count matrix; integer bp
 beforeRegionStartLength: 3000
 afterRegionStartLength: 3000
+# heat plot options
+colorsForHeatPlot: "#543005,#f5f5f5,#003c30"
+heatplotBreaks: "-3,0,3"
 
 #################################################################
 ##                     Environment Modules                     ##
