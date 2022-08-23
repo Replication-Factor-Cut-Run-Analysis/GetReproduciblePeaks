@@ -1,3 +1,0 @@
-AttributeError in line 13 of /s/sansam-lab/PeakAnalyzer/workflow/Snakefile:
-'list' object has no attribute 'applymap'
-  File "/s/sansam-lab/PeakAnalyzer/workflow/Snakefile", line 13, in <module>

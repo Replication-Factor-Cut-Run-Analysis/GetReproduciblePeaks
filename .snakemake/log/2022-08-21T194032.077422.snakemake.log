@@ -1,4 +1,0 @@
-AttributeError in line 24 of /s/sansam-lab/PeakAnalyzer/workflow/Snakefile:
-'set' object has no attribute 'set'
-  File "/s/sansam-lab/PeakAnalyzer/workflow/Snakefile", line 93, in <module>
-  File "/s/sansam-lab/PeakAnalyzer/workflow/Snakefile", line 24, in CountFiles_dict_from_set
