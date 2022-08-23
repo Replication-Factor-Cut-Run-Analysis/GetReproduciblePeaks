@@ -20,12 +20,19 @@ names <- read.table(matrix_filename,skip=2,nrow=1)[1,-1] %>%
   as.character %>%
   gsub("_bkgrndNorm","",.)
 
-htmp <- ComplexHeatmap::Heatmap(matrix,
-                        cluster_columns = FALSE,
-                        cluster_rows=FALSE,
-                        show_column_names = FALSE,
-                        show_row_names=FALSE,
-                        column_split = names,
-                        col=map_colors)
+htmp <- ComplexHeatmap::Heatmap(
+  matrix,
+  cluster_columns = FALSE,
+  cluster_rows=FALSE,
+  show_column_names = FALSE,
+  show_row_names=FALSE,
+  column_split = names,
+  col=map_colors,
+  column_title_gp = gpar(fontsize = 8),
+  heatmap_legend_param = list(
+    title = "Log2FC",
+    labels_gp = gpar(fontsize = 6),
+    title_gp = gpar(fontsize = 8)
+)
 
 saveRDS(htmp,rds_output)
