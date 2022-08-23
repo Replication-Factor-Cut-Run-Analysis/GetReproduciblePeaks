@@ -300,4 +300,3 @@ rule make_heatplot_of_reproducible_peaks:
     script:
         "scripts/makeHeatPlot.R"
   
-  #
