@@ -5,7 +5,7 @@ library(circlize)
 
 matrix_filename <- snakemake@input[[1]]
 colorsForHeatPlot <- stringr::str_split(snakemake@params[[1]],pattern=",") %>% .[[1]]
-heatplotBreaks <- stringr::str_split(snakemake@params[[2]],pattern=",") %>% .[[1]]
+heatplotBreaks <- stringr::str_split(snakemake@params[[2]],pattern=",") %>% .[[1]] %>% as.numeric
 rds_output <- snakemake@output[[1]]
 
 map_colors<-circlize::colorRamp2(heatplotBreaks,colorsForHeatPlot)
