@@ -6,8 +6,11 @@ library(stringr)
 
 input <- readRDS(snakemake@input[[1]])
 output <- snakemake@output[[1]]
+pdf_output <- snakemake@output[[2]]
 eulerFontSize <- snakemake@params[[1]]
 eulerFills <- snakemake@params[[2]]
+pdf_width <- snakemake@params[[3]] %>% as.numeric
+pdf_height <- snakemake@params[[4]] %>% as.numeric
 
 fills <- stringr::str_split(eulerFills,pattern=",") %>% .[[1]]
 
@@ -28,3 +31,7 @@ EulerPlot <- GenomicRanges::mcols(input) %>%
     as.ggplot
 
 saveRDS(EulerPlot,output)
+
+pdf(pdf_output,width=pdf_width,height=pdf_height)
+EulerPlot
+dev.off()
