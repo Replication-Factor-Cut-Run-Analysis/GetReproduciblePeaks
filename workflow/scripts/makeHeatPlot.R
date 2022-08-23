@@ -33,6 +33,6 @@ htmp <- ComplexHeatmap::Heatmap(
     title = "Log2FC",
     labels_gp = gpar(fontsize = 6),
     title_gp = gpar(fontsize = 8)
-)
+))
 
 saveRDS(htmp,rds_output)
