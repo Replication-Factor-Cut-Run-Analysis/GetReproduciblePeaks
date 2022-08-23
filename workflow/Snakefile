@@ -219,7 +219,7 @@ rule make_bed_of_reproducible_peaks:
 # make bed file of reproducible summits
 rule make_bed_of_reproducible_summits:
     input:
-        peaks = "results/reproduciblePeaksBed/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_reproduciblePeaks.bed",
+        peaks = "results/reproduciblePeaksBed/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",
         summits = "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_summits.bed",
     output:
         "results/reproduciblePeaksSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "reproducibleSummits.bed",
