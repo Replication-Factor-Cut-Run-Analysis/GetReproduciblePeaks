@@ -45,14 +45,13 @@ def In_BamFiles_dict_from_samples(sample):
 rule all:
     input:
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
-        #"results/macs2_normalPeaks_merged/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
-        "results/mergedPeakOverlaps/" + str(config["experimentName"]) + ".rds",
         "results/eulerPlot/" + str(config["experimentName"]) + "_eulerPlot.rds",
         expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_heatPlotAcrossPeakSummits.rds",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_heatPlotAcrossPeakSummits.pdf",
         "results/macs2_normalPeaks_merged/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_summits.bed",
-        
+        #"results/macs2_normalPeaks_merged/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
+        #"results/mergedPeakOverlaps/" + str(config["experimentName"]) + ".rds",
         
 # merge technical replicates
 rule merge_technical_replicates:
