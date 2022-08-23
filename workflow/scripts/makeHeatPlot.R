@@ -14,7 +14,7 @@ matrix <- read.table(matrix_filename,
                      skip=3,
                      header=F) %>% as.matrix
 
-matrix <- matrix[rev(order(apply(matrix,1,quantile,0.8))),]
+matrix <- matrix[rev(order(apply(matrix,1,quantile,0.8,na.rm=TRUE))),]
 
 names <- read.table(matrix_filename,skip=2,nrow=1)[1,-1] %>% 
   as.character %>%
