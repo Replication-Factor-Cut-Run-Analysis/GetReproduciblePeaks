@@ -44,11 +44,11 @@ def In_BamFiles_dict_from_samples(sample):
 # to run snakemake without explicitly requesting any output files on the command line, we must request output files in the first rule. Therefore we include this otherwise useless rule here  
 rule all:
     input:
-        expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_peaks.narrowPeak", sample = samples_lst),
-        "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_eulerPlot.rds",
+        expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_peaks.narrowPeak", sample = samples_lst),
+        "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_eulerPlot.rds",
         expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
-        "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_heatPlotAcrossPeakSummits.rds",
-        "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_heatPlotAcrossPeakSummits.pdf",
+        "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_heatPlotAcrossPeakSummits.rds",
+        "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_heatPlotAcrossPeakSummits.pdf",
         
 # merge technical replicates
 rule merge_technical_replicates:
@@ -74,7 +74,7 @@ rule call_narrow_peaks_with_macs2:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
         in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
     output:
-        "results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_peaks.narrowPeak"
+        "results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_peaks.narrowPeak"
     params:
         effective_genome_size=config["effective_genome_size"],
         minimum_FDR_cutoff=str(config["macs2_minimum_FDR_cutoff"]),
@@ -160,8 +160,8 @@ rule call_narrow_peaks_with_macs2_on_merged:
         tx_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_tx.bam",
         in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
     output:
-        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_peaks.narrowPeak",
-        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_summits.bed",
+        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_peaks.narrowPeak",
+        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_summits.bed",
     params:
         effective_genome_size=config["effective_genome_size"],
         minimum_FDR_cutoff=str(config["macs2_minimum_FDR_cutoff"]),
@@ -176,11 +176,11 @@ rule call_narrow_peaks_with_macs2_on_merged:
 # get overlaps between peaks of merged sample and individual samples
 rule report_peaks_overlapping_with_merged:
     input:
-        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_peaks.narrowPeak",
+        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_peaks.narrowPeak",
     output:
-        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_peaks.rds",
+        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_peaks.rds",
     params:
-        ','.join(expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_peaks.narrowPeak", sample = set(samples_lst))),
+        ','.join(expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_peaks.narrowPeak", sample = set(samples_lst))),
     envmodules:
         config["R"],
         config["Bioconductor"],
@@ -190,9 +190,9 @@ rule report_peaks_overlapping_with_merged:
 # make euler plot
 rule make_euler_plot_of_overlaps_with_merged:
     input:
-        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_peaks.rds",
+        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_peaks.rds",
     output:
-        "results/eulerPlot/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_eulerPlot.rds",
+        "results/eulerPlot/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_eulerPlot.rds",
     params:
         config["EulerFontSize"],
         config["EulerColors"],
@@ -205,7 +205,7 @@ rule make_euler_plot_of_overlaps_with_merged:
 # make bed file of reproducible peaks
 rule make_bed_of_reproducible_peaks:
     input:
-        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_peaks.rds",
+        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_peaks.rds",
     output:
         "results/reproduciblePeaksBed/{sample}_reproduciblePeaks.bed",
     params:
@@ -219,10 +219,10 @@ rule make_bed_of_reproducible_peaks:
 # make bed file of reproducible summits
 rule make_bed_of_reproducible_summits:
     input:
-        peaks = "results/reproduciblePeaksBed/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "reproduciblePeaks.bed",
-        summits = "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_summits.bed",
+        peaks = "results/reproduciblePeaksBed/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "reproduciblePeaks.bed",
+        summits = "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_summits.bed",
     output:
-        "results/reproduciblePeaksSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "reproducibleSummits.bed",
+        "results/reproduciblePeaksSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "reproducibleSummits.bed",
     params:
         config["minNumberOfSampleOverlaps"],
     envmodules:
@@ -264,10 +264,10 @@ rule make_normalized_bigwigs_with_bamcompare:
 # make coverage matrix across reproducible peak summits
 rule make_coverage_matrix_across_peaks:
     input:
-        summits = "results/reproduciblePeaksSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "reproducibleSummits.bed",
+        summits = "results/reproduciblePeaksSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "reproducibleSummits.bed",
     output:
-        mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_readCountsAcrossSummits.tab",
-        gz = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_readCountsAcrossSummits.gz",
+        mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_readCountsAcrossSummits.tab",
+        gz = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_readCountsAcrossSummits.gz",
     params:
         readsBigWigs = ' '.join(expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",sample = set(samples_lst))),
         brl=config["beforeRegionStartLength"],
@@ -285,10 +285,10 @@ rule make_coverage_matrix_across_peaks:
 # make bed file of reproducible peaks
 rule make_heatplot_of_reproducible_peaks:
     input:
-        mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_readCountsAcrossSummits.tab",
+        mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_readCountsAcrossSummits.tab",
     output:
-        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_heatPlotAcrossPeakSummits.rds",
-        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config[minNumberOfSampleOverlaps] + "_heatPlotAcrossPeakSummits.pdf",
+        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_heatPlotAcrossPeakSummits.rds",
+        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps'] + "_heatPlotAcrossPeakSummits.pdf",
     params:
         config["colorsForHeatPlot"],
         config["heatplotBreaks"],
