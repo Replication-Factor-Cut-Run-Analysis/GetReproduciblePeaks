@@ -59,6 +59,7 @@ rule all:
         expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
         "results/matrixOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_readCountsAcrossSummits.tab",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_heatPlotAcrossPeakSummits.rds",
+        "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_heatPlotAcrossPeakSummits.pdf",
         "results/macs2_normalPeaks_merged/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_summits.bed",
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
@@ -303,9 +304,12 @@ rule make_heatplot_of_reproducible_peaks:
         mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_readCountsAcrossSummits.tab",
     output:
         "results/heatPlotOfReadsAcrossPeakSummits/{sample}_heatPlotAcrossPeakSummits.rds",
+        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_heatPlotAcrossPeakSummits.pdf",
     params:
         config["colorsForHeatPlot"],
         config["heatplotBreaks"],
+        config["pdfWidth"],
+        config["pdfHeight"],
     envmodules:
         config["R"],
         config["Bioconductor"],
