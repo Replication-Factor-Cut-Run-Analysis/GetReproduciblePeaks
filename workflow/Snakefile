@@ -58,6 +58,7 @@ rule all:
         "results/reproduciblePeaksSummits/" + str(config["experimentName"]) + "_reproducibleSummits.bed",
         expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
         "results/matrixOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_readCountsAcrossSummits.tab",
+        "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_heatPlotAcrossPeakSummits.rds",
         #expand("results/minMappedReadCounts/{setOfInterest}_treated_minMappedReadCounts.txt", setOfInterest = sets_lst),
         #expand("results/minMappedReadCounts/{setOfInterest}_input_minMappedReadCounts.txt", setOfInterest = sets_lst),
         
@@ -293,3 +294,19 @@ rule make_coverage_matrix_across_peaks:
         """
         computeMatrix reference-point --outFileName {output.gz} -a {params.arl} -b {params.brl} --numberOfProcessors {params.nop} --smartLabels --outFileNameMatrix {output.mx} -S {params.readsBigWigs} -R {input.summits}
         """
+
+# make bed file of reproducible peaks
+rule make_heatplot_of_reproducible_peaks:
+    input:
+        mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_readCountsAcrossSummits.tab",
+    output:
+        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_heatPlotAcrossPeakSummits.rds",
+    params:
+        config["minNumberOfSampleOverlaps"],
+    envmodules:
+        config["colorsForHeatPlot"],
+        config["heatplotBreaks"],
+    script:
+        "scripts/makeHeatPlot.R"
+  
+  
