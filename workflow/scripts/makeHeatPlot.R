@@ -2,6 +2,7 @@ library(magrittr)
 library(ComplexHeatmap)
 library(stringr)
 library(circlize)
+library(ggplotify)
 
 matrix_filename <- snakemake@input[[1]]
 colorsForHeatPlot <- stringr::str_split(snakemake@params[[1]],pattern=",") %>% .[[1]]
@@ -36,7 +37,7 @@ htmp <- ComplexHeatmap::Heatmap(
     title = "Log2FC",
     labels_gp = gpar(fontsize = 6),
     title_gp = gpar(fontsize = 8)
-))
+)) %>% ggplotify::as.ggplot
 
 saveRDS(htmp,rds_output)
 #pdf(file = pdf_output, width = pdf_width, height = pdf_height)
