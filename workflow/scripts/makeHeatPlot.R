@@ -2,7 +2,7 @@ library(magrittr)
 library(ComplexHeatmap)
 library(stringr)
 library(circlize)
-library(ggplotify)
+#library(ggplotify)
 
 matrix_filename <- snakemake@input[[1]]
 colorsForHeatPlot <- stringr::str_split(snakemake@params[[1]],pattern=",") %>% .[[1]]
