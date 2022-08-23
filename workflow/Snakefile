@@ -301,11 +301,11 @@ rule make_heatplot_of_reproducible_peaks:
         mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_readCountsAcrossSummits.tab",
     output:
         "results/heatPlotOfReadsAcrossPeakSummits/{sample}_heatPlotAcrossPeakSummits.rds",
-    params:
-        config["minNumberOfSampleOverlaps"],
     envmodules:
-        config["colorsForHeatPlot"],
-        config["heatplotBreaks"],
+        config["minNumberOfSampleOverlaps"],
+    params:
+        config["R"],
+        config["Bioconductor"],
     script:
         "scripts/makeHeatPlot.R"
   
