@@ -33,15 +33,14 @@ htmp <- ComplexHeatmap::Heatmap(
   column_split = names,
   col=map_colors,
   column_title_gp = gpar(fontsize = 8),
-  use_raster = FALSE,
   heatmap_legend_param = list(
     title = "Log2FC",
     labels_gp = gpar(fontsize = 6),
     title_gp = gpar(fontsize = 8)
-)) %>% as.ggplot
+))
 
 saveRDS(htmp,rds_output)
-#pdf(file = pdf_output, width = pdf_width, height = pdf_height)
-pdf(file = pdf_output)
+pdf(file = pdf_output, width = pdf_width, height = pdf_height)
+#pdf(file = pdf_output)
 htmp
 dev.off()
