@@ -22,6 +22,15 @@ library(stringr)
 merged_peaks_file <- snakemake@input[[1]]
 output <- snakemake@output[[1]]
 peak_files_input <- snakemake@params[[1]]
+blacklist_regions_file <- snakemake@params[[2]]
+
+blacklisted_regions <- blacklist_regions_file %>%
+  read.table %>%
+  GenomicRanges::makeGRangesFromDataFrame(.,
+                                          ignore.strand = T,
+                                          seqnames.field = "V1",
+                                          start.field = "V2",
+                                          end.field = "V3")
 
 merged_peaks <- merged_peaks_file %>%
   read.table %>%
@@ -29,7 +38,8 @@ merged_peaks <- merged_peaks_file %>%
                                           ignore.strand = T,
                                           seqnames.field = "V1",
                                           start.field = "V2",
-                                          end.field = "V3")
+                                          end.field = "V3") %>%
+  .[!. %over% blacklisted_regions]
 
 overlaps <- peak_files_input %>%
   stringr::str_split(.,pattern=",") %>% 
