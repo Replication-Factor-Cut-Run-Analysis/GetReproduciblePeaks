@@ -1,11 +1,7 @@
 configfile: "config/config.yml"
 import pandas as pd
 import shutil
-from snakemake.io import glob_wildcards, expand
-# set unique ID to append to files
-import random
-random.seed(10)
-ID=str(random.random())[2,8]
+#from snakemake.io import glob_wildcards, expand
 
 ##################################################################
 ##                    Define input functions                    ##
