@@ -1,5 +1,6 @@
 configfile: "config/config.yml"
 import pandas as pd
+import shutil
 from snakemake.io import glob_wildcards, expand
 # set unique ID to append to files
 import random
@@ -48,12 +49,44 @@ def In_BamFiles_dict_from_samples(sample):
 # to run snakemake without explicitly requesting any output files on the command line, we must request output files in the first rule. Therefore we include this otherwise useless rule here  
 rule all:
     input:
+        "results/run_details_" + config["experimentName"] + "/config.yml",
+        "results/run_details_" + config["experimentName"] + "/" + config["samples_csv"],
+        "results/run_details_" + str(config["experimentName"]) + "/repo_release.txt",
         expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = samples_lst),
         "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.rds",
         "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.pdf",
         expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.rds",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
+
+##################################################################
+##                       document run                           ##
+##################################################################
+
+# copy config and samples files to a directory
+rule copy_config_files:
+    output:
+        "results/run_details_{sample}/config.yml",
+        "results/run_details_{sample}/" + config["samples_csv"]
+    params:
+        config["samples_csv"]
+    run:
+        shutil.copyfile('config/config.yml', output[0])
+        shutil.copyfile(params[0], output[1])
+
+
+# write the current repo release to a file
+rule write_repo_release:
+    output:
+        "results/run_details_{sample}/repo_release.txt"
+    shell:
+        """
+        git describe --tag > {output}
+        """        
+
+##################################################################
+##                      pipeline rules                          ##
+##################################################################
         
 # merge technical replicates
 rule merge_technical_replicates:
@@ -186,6 +219,7 @@ rule report_peaks_overlapping_with_merged:
         "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
     params:
         ','.join(expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = set(samples_lst))),
+        config["blackListFileName"],
     envmodules:
         config["R"],
         config["Bioconductor"],
