@@ -229,10 +229,10 @@ rule call_narrow_peaks_with_macs2_on_merged:
 # get overlaps between peaks of merged sample and individual samples
 rule report_peaks_overlapping_with_merged:
     input:
-        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
+        "results/macs2_normalPeaks_merged/{main_sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
         "results/greyAndBlackLists/{main_sample}_greyAndBlacklist.bed",
     output:
-        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
+        "results/mergedPeakOverlaps/{main_sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
     params:
         ','.join(expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = set(samples_lst))),
     envmodules:
