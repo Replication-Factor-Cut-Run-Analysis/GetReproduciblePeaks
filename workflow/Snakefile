@@ -230,11 +230,11 @@ rule call_narrow_peaks_with_macs2_on_merged:
 rule report_peaks_overlapping_with_merged:
     input:
         "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
+        "results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
     output:
         "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
     params:
         ','.join(expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample = set(samples_lst))),
-        config["blackListFileName"],
     envmodules:
         config["R"],
         config["Bioconductor"],
@@ -297,6 +297,7 @@ rule make_normalized_bigwigs_with_bamcompare:
     input:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
         in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
+        bln="results/greyAndBlackLists/{main_sample}_greyAndBlacklist.bed",
     output:
         "results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
     params:
@@ -304,7 +305,6 @@ rule make_normalized_bigwigs_with_bamcompare:
         nmu=config["normalizeUsing"],
         bco=config["bamcompareOperation"],
         bns=config["binSize"],
-        bln=config["blackListFileName"],
         egs=config["effective_genome_size"],
         nop=config["numberOfProcessors"],
         mfl=config["minFragmentLength"],
@@ -315,7 +315,7 @@ rule make_normalized_bigwigs_with_bamcompare:
         config["deeptools"],
     shell:
         """
-        bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --operation {params.bco} --binSize {params.bns} --blackListFileName {params.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
+        bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --operation {params.bco} --binSize {params.bns} --blackListFileName {input.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
         """
 
 # make coverage matrix across reproducible peak summits
@@ -330,7 +330,6 @@ rule make_coverage_matrix_across_peaks:
         brl=config["beforeRegionStartLength"],
         arl=config["afterRegionStartLength"],
         bns=config["binSize"],
-        bln=config["blackListFileName"],
         nop=config["numberOfProcessors"],
     envmodules:
         config["deeptools"],
