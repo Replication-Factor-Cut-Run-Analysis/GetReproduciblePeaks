@@ -5,6 +5,8 @@ experimentName: "testExperiment"
 # genome-of-interest (must be dm6, danRer7, danRer10, danRer11, hg19, hg38, mm9, mm10, or mm39)
 genome_of_interest: "hg38"
 BSgenomeRPackage: "BSgenome.Hsapiens.UCSC.hg38"
+# number of processors to use for generating greylist (make_greylist_from_merged_input rule)
+greyListProcessorsNumber: 8
 # effective genome size
 ## for effective genome sizes see: https://deeptools.readthedocs.io/en/develop/content/feature/effectiveGenomeSize.html
 effective_genome_size: 2913022398
