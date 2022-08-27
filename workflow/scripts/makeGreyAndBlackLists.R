@@ -2,6 +2,7 @@ library(stringr)
 library(magrittr)
 library(dplyr)
 library(GenomicRanges)
+library(GreyListChIP)
 
 mergedInputBam_file <- snakemake@input[[1]]
 greyList_output <- snakemake@output[[1]]
