@@ -60,10 +60,21 @@ gl <- calcThreshold(gl,reps=10,sampleSize=1000,p=0.99,cores=procs)
 
 gl <- makeGreyList(gl,maxGap=10000)
 
-export(gl,con=greyList_output)
+gl@region %>%
+  data.frame(
+    seqnames=seqnames(.),
+    starts=start(.)-1,
+    ends=end(.)) %>%
+  write.table(
+    ., 
+    file=greyList_output, 
+    quote=F, 
+    sep="\t", 
+    row.names=F, 
+    col.names=F)
 
 c(gl@regions,blacklisted_regions) %>%
-  #reduce %>%
+  reduce %>%
   data.frame(
     seqnames=seqnames(.),
     starts=start(.)-1,
