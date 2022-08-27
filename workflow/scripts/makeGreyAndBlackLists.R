@@ -60,7 +60,7 @@ gl <- calcThreshold(gl,reps=10,sampleSize=1000,p=0.99,cores=procs)
 
 gl <- makeGreyList(gl,maxGap=10000)
 
-gl@region %>%
+gl@regions %>%
   data.frame(
     seqnames=seqnames(.),
     starts=start(.)-1,
