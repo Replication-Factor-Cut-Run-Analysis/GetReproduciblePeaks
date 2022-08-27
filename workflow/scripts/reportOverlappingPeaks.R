@@ -25,7 +25,7 @@ peak_files_input <- snakemake@params[[1]]
 blacklist_regions_file <- snakemake@params[[2]]
 
 blacklisted_regions <- blacklist_regions_file %>%
-  read.table %>%
+  read.table(.,sep="\t") %>%
   GenomicRanges::makeGRangesFromDataFrame(.,
                                           ignore.strand = T,
                                           seqnames.field = "V1",
