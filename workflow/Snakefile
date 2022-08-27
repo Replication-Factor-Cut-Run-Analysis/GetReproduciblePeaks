@@ -191,8 +191,8 @@ rule merged_downsampled_bams:
         """
 
 # make greylist from merged input and combine with blacklist
-  rule make_greylist_from_merged_input:  
-  input:
+rule make_greylist_from_merged_input:  
+    input:
         in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
     output:
         greylist="results/greyAndBlackLists/{sample}_greylist.bed",
