@@ -3,7 +3,7 @@ import pandas as pd
 import shutil
 from datetime import datetime
 now = datetime.now()
-tmstmp = now.strftime("%y%m%d_%H%M")
+tmstmp = str(now.strftime("%y%m%d_%H%M"))
 
 ##################################################################
 ##                    Define input functions                    ##
