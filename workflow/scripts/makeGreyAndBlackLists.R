@@ -62,10 +62,7 @@ gl <- makeGreyList(gl,maxGap=10000)
 
 export(gl,con=greyBlackList_output)
 
-class(gl)
-class(blacklisted_regions)
-
-c(unlist(gl),unlist(blacklisted_regions)) %>%
+c(gl@regions,blacklisted_regions) %>%
   reduce %>%
   data.frame(
     seqnames=seqnames(.),
