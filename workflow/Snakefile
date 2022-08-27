@@ -201,6 +201,8 @@ rule make_greylist_from_merged_input:
     params:
         config["blackListFileName"],
         config["BSgenomeRPackage"],
+        config["minMappingQuality"],
+        config["greyListProcessorsNumber"],
     envmodules:
         config["R"],
         config["Bioconductor"],
