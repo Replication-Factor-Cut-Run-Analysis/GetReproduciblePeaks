@@ -47,6 +47,7 @@ def In_BamFiles_dict_from_samples(sample):
 # to run snakemake without explicitly requesting any output files on the command line, we must request output files in the first rule. Therefore we include this otherwise useless rule here  
 rule all:
     input:
+        greyAndBlackList="results/greyAndBlackLists/" + str(config["experimentName"]) + "_greyAndBlacklist.bed",
         "results/" + tmstmp + "_run_details_" + config["experimentName"] + "/config.yml",
         "results/" + tmstmp + "_run_details_" + config["experimentName"] + "/" + config["samples_csv"],
         "results/" + tmstmp + "_run_details_" + str(config["experimentName"]) + "/repo_release.txt",
