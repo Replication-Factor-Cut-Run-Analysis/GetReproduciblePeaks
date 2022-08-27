@@ -53,9 +53,6 @@ gr_counts <- processByChromosome(bam.file=mergedInputBam_file,
                                  mapqual=mapqual, 
                                  procs=procs)
 
-
-gr_counts <- processByChromosome( bam.files=c(treatment.bampath, control.bampath), gr=gr, mapqual=mapqual, procs=procs)
-
 gl@tiles <- gr_counts
 gl@counts <- gr_counts$counts
 
