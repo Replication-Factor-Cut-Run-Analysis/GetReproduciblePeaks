@@ -3,11 +3,11 @@ library(magrittr)
 library(dplyr)
 library(GenomicRanges)
 
-mergedInputBam_file <- snakemake.input[[1]]
-greyList_output <- snakemake.output[[1]]
-greyBlackList_output <- snakemake.output[[2]]
-blacklist_regions_file <- snakemake.params[[1]]
-BSGenomePackage <- snakemake.params[[2]]
+mergedInputBam_file <- snakemake@input[[1]]
+greyList_output <- snakemake@output[[1]]
+greyBlackList_output <- snakemake@output[[2]]
+blacklist_regions_file <- snakemake@params[[1]]
+BSGenomePackage <- snakemake@params[[2]]
 
 library(BSGenomePackage,character.only = TRUE)
 
