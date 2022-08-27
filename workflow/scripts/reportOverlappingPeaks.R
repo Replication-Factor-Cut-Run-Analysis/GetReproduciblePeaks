@@ -22,7 +22,7 @@ library(stringr)
 merged_peaks_file <- snakemake@input[[1]]
 output <- snakemake@output[[1]]
 peak_files_input <- snakemake@params[[1]]
-blacklist_regions_file <- snakemake@params[[2]]
+blacklist_regions_file <- snakemake@input[[2]]
 
 blacklisted_regions <- blacklist_regions_file %>%
   read.table(.,sep="\t") %>%
