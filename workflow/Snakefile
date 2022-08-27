@@ -194,10 +194,10 @@ rule merged_downsampled_bams:
 # make greylist from merged input and combine with blacklist
 rule make_greylist_from_merged_input:  
     input:
-        in_merged_downsampled_bam = "results/mergedDownSampledBams/{main_sample}_in.bam",
+        in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
     output:
-        greylist="results/greyAndBlackLists/{main_sample}_greylist.bed",
-        greyAndBlackList="results/greyAndBlackLists/{main_sample}_greyAndBlacklist.bed",
+        greylist="results/greyAndBlackLists/{sample}_greylist.bed",
+        greyAndBlackList="results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
     params:
         config["blackListFileName"],
         config["BSgenomeRPackage"],
