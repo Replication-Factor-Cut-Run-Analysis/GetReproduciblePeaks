@@ -297,7 +297,7 @@ rule make_normalized_bigwigs_with_bamcompare:
     input:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
         in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
-        bln="results/greyAndBlackLists/{main_sample}_greyAndBlacklist.bed",
+        bln="results/greyAndBlackLists/" + str(config["experimentName"]) + "_greyAndBlacklist.bed",
     output:
         "results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
     params:
