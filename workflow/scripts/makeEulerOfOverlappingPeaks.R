@@ -16,7 +16,7 @@ fills <- stringr::str_split(eulerFills,pattern=",") %>% .[[1]]
 
 eulerr_options(labels = list(fontsize = eulerFontSize),
                quantities = list(fontsize = eulerFontSize-2,
-                                padding = grid::unit(10, "mm")),
+                                padding = grid::unit(100, "mm")),
                legend = list(fontsize = eulerFontSize, vgap = 0.01))
 EulerPlot <- GenomicRanges::mcols(input) %>%
     as.matrix %>%
