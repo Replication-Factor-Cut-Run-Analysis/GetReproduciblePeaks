@@ -313,11 +313,12 @@ rule make_normalized_bigwigs_with_bamcompare:
         mxl=config["maxFragmentLength"],
         mmq=config["minMappingQuality"],
         sml=config["smoothLength"],
+        ign=config["ignoreForNormalization"],
     envmodules:
         config["deeptools"],
     shell:
         """
-        bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --operation {params.bco} --binSize {params.bns} --blackListFileName {input.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
+        bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --ignoreForNormalization {params.ign} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --operation {params.bco} --binSize {params.bns} --blackListFileName {input.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
         """
 
 # make coverage matrix across reproducible peak summits
