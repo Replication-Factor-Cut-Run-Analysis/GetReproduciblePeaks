@@ -34,6 +34,8 @@ scaleFactorsMethod: "None"
 normalizeUsing: "CPM"
 ## choose from "log2", "ratio", "subtract", "add", "mean", "reciprocal_ratio", "first", "second"
 bamcompareOperation: "log2"
+## chromosomes to ignore during normalization with bam compare
+ignoreForNormalization: "chrX chrM chrY"
 ## choose an integer for bp
 binSize: 50
 ## smooth length
