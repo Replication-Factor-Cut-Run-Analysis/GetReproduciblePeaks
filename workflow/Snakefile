@@ -55,6 +55,7 @@ rule all:
         "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.rds",
         "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.pdf",
         expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
+        expand("results/mergedBackgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.rds",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
 
@@ -302,6 +303,32 @@ rule make_normalized_bigwigs_with_bamcompare:
         bln="results/greyAndBlackLists/" + str(config["experimentName"]) + "_greyAndBlacklist.bed",
     output:
         "results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
+    params:
+        sfm=config["scaleFactorsMethod"],
+        nmu=config["normalizeUsing"],
+        bco=config["bamcompareOperation"],
+        bns=config["binSize"],
+        egs=config["effective_genome_size"],
+        nop=config["numberOfProcessors"],
+        mfl=config["minFragmentLength"],
+        mxl=config["maxFragmentLength"],
+        mmq=config["minMappingQuality"],
+        sml=config["smoothLength"],
+        ign=config["ignoreForNormalization"],
+    envmodules:
+        config["deeptools"],
+    shell:
+        """
+        bamCompare --smoothLength {params.sml} --minFragmentLength {params.mfl} --ignoreForNormalization {params.ign} --maxFragmentLength {params.mxl} --minMappingQuality {params.mmq} --numberOfProcessors {params.nop} --effectiveGenomeSize {params.egs} --scaleFactorsMethod {params.sfm} --normalizeUsing {params.nmu} --operation {params.bco} --binSize {params.bns} --blackListFileName {input.bln} --centerReads --numberOfProcessors {params.nop} -b1 {input.tx_merged_bam} -b2 {input.in_merged_bam} -o {output}
+        """
+        
+rule make_normalized_merged_bigwigs_with_bamcompare:
+    input:
+        tx_merged_bam = "results/mergedDownSampledBams/{sample}_tx.bam",
+        in_merged_bam = "results/mergedDownSampledBams/{sample}_in.bam",
+        bln="results/greyAndBlackLists/" + str(config["experimentName"]) + "_greyAndBlacklist.bed",
+    output:
+        "results/mergedBackgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
     params:
         sfm=config["scaleFactorsMethod"],
         nmu=config["normalizeUsing"],
