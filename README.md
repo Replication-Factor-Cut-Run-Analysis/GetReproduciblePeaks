@@ -1,9 +1,17 @@
 # ReplicatePeakAnalyzer
 Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
 
+# Process
+1.  Merge replicate treatment and input downsampled bams.
+2.  Call peaks on merged bams. These are the "merged" peaks.
+3.  Identify merged that overlap peaks in each sample.
+4.  Make a heat plot showing coverage of all merged peaks with merged data.
+5.  Make a heat plot showing coverage of all merged peaks for each sample. 
+6.  Make a Euler plot showing overlap of the sample peaks.
+7.  Make an Upset plot showing overlap of the sample peaks.
+8.  Make a report.
 
-## Input
-#### Multiple bam files (technical and biological replicates) 
+
 
 ```bash
 runit () { 
@@ -56,12 +64,3 @@ samtools idxstats {input.inBam} | awk -F '\t' '{s+=$3}END{print s}' > {output.in
 cat 
 ```
 
-
-3.  Merge replicate treatment and input downsampled bams.
-4.  Call peaks on merged bams. These are the "merged" peaks.
-5.  Identify merged that overlap peaks in each sample.
-6.  Make a heat plot showing coverage of all merged peaks with merged data.
-7.  Make a heat plot showing coverage of all merged peaks for each sample. 
-8.  Make a Euler plot showing overlap of the sample peaks.
-9.  Make an Upset plot showing overlap of the sample peaks.
-10.  Make a report.
