@@ -208,11 +208,11 @@ rule make_greylist_from_merged_input:
         config["R"],
         config["Bioconductor"],
 if config["Run_GreyList"] == True:
-	script:
-		"scripts/makeGreyAndBlackLists.R"
+    script:
+	"scripts/makeGreyAndBlackLists.R"
 else:
-	shell:
-		"""
+    shell:
+	"""
         cp {params[1]} {output.greylist}
         cp {params[1]} {output.greyAndBlackList}
         """
