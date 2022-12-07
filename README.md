@@ -1,6 +1,10 @@
 # ReplicatePeakAnalyzer
 Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
 
+
+## Input
+#### Multiple bam files (technical and biological replicates) 
+
 ```bash
 runit () { 
 sbatch --constraint=westmere \
