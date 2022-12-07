@@ -10,6 +10,7 @@ greyListProcessorsNumber: 8
 # effective genome size
 ## for effective genome sizes see: https://deeptools.readthedocs.io/en/develop/content/feature/effectiveGenomeSize.html
 effective_genome_size: 2913022398
+# run greylist option
 blacklist_file: "resources/hg38-blacklist.v2.bed"
 # macs2 options
 # macs2 "normal" options
@@ -41,7 +42,7 @@ binSize: 50
 ## smooth length
 smoothLength: 150
 ## Run_GreyList Option
-Run_GreyList: True
+Run_GreyList: False
 ## path to blacklist bed file
 blackListFileName: "resources/blackLists/hg38-blacklist.v2.bed"
 ## read processing options; all integers
