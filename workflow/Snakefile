@@ -225,11 +225,8 @@ rule make_greylist_from_merged_input:
     envmodules:
         config["R"],
         config["Bioconductor"],
-    shell:
-	"""
-        cp {params[1]} {output.greylist}
-        cp {params[1]} {output.greyAndBlackList}
-        """
+    script:
+	"scripts/makeGreyAndBlackLists.R"
 
 	
 # call narrow peaks with macs2 on merged bams
