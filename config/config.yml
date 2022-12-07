@@ -40,6 +40,8 @@ ignoreForNormalization: "chrX chrM chrY"
 binSize: 50
 ## smooth length
 smoothLength: 150
+## Run_GreyList Option
+Run_GreyList: True
 ## path to blacklist bed file
 blackListFileName: "resources/blackLists/hg38-blacklist.v2.bed"
 ## read processing options; all integers
