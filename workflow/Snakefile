@@ -58,6 +58,9 @@ rule all:
         "results/mergedBackgroundNormalizedBigwigs/" + str(config["experimentName"]) + "_bkgrndNorm.bw",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.rds",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
+        "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.rds",
+        "results/reproducibleBroadPeaksBed/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",
+        "results/heatPlotOfReadsAcrossBroadPeakMidpoints/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.rds",
 
 ##################################################################
 ##                       document run                           ##
@@ -224,11 +227,11 @@ else:
             envmodules:
                 config["R"],
                 config["Bioconductor"],
-        shell:
-            """
-            cp {params[0]} {output.greylist}
-            cp {params[0]} {output.greyAndBlackList}
-            """
+            shell:
+                """
+                cp {params[0]} {output.greylist}
+                cp {params[0]} {output.greyAndBlackList}
+                """
 
 # call narrow peaks with macs2 on merged bams
 rule call_narrow_peaks_with_macs2_on_merged:
