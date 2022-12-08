@@ -452,6 +452,7 @@ rule report_broadPeaks_overlapping_with_merged:
     input:
         "results/macs2_broadPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.broadPeak",
         "results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
+        "results/macs2_broadPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.broadPeak",
     output:
         "results/mergedBroadPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
     params:
