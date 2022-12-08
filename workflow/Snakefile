@@ -61,6 +61,7 @@ rule all:
         "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.rds",
         "results/reproducibleBroadPeaksBed/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",
         "results/heatPlotOfReadsAcrossBroadPeakMidpoints/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.rds",
+        expand("results/macs2_broadPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.broadPeak", sample = samples_lst),
 
 ##################################################################
 ##                       document run                           ##
