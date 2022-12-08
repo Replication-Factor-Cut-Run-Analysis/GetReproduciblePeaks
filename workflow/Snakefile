@@ -58,6 +58,10 @@ rule all:
         "results/mergedBackgroundNormalizedBigwigs/" + str(config["experimentName"]) + "_bkgrndNorm.bw",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.rds",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
+        "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.rds",
+        "results/reproducibleBroadPeaksBed/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",
+        "results/heatPlotOfReadsAcrossBroadPeakMidpoints/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.rds",
+        expand("results/macs2_broadPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.broadPeak", sample = samples_lst),
 
 ##################################################################
 ##                       document run                           ##
@@ -194,41 +198,41 @@ rule merged_downsampled_bams:
 
 # make greylist from merged input and combine with blacklist
 if config["Run_GreyList"] == True:
-	rule make_greylist_from_merged_input:  
-    		input:
-        		in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
-    		output:
-        		greylist="results/greyAndBlackLists/{sample}_greylist.bed",
-        		greyAndBlackList="results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
-    		params:
-        		config["blackListFileName"],
-        		config["BSgenomeRPackage"],
-        		config["minMappingQuality"],
-        		config["greyListProcessorsNumber"],
-    		envmodules:
-        		config["R"],
-        		config["Bioconductor"],
-    		script: "scripts/makeGreyAndBlackLists.R"
+    rule make_greylist_from_merged_input:  
+            input:
+                in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
+            output:
+                greylist="results/greyAndBlackLists/{sample}_greylist.bed",
+                greyAndBlackList="results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
+            params:
+                config["blackListFileName"],
+                config["BSgenomeRPackage"],
+                config["minMappingQuality"],
+                config["greyListProcessorsNumber"],
+            envmodules:
+                config["R"],
+                config["Bioconductor"],
+            script: "scripts/makeGreyAndBlackLists.R"
 else:
-	rule make_greylist_from_merged_input:  
-    		input:
-        		in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
-    		output:
-        		greylist="results/greyAndBlackLists/{sample}_greylist.bed",
-        		greyAndBlackList="results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
-    		params:
-        		config["blackListFileName"],
-        		config["BSgenomeRPackage"],
-        		config["minMappingQuality"],
-        		config["greyListProcessorsNumber"],
-    		envmodules:
-        		config["R"],
-        		config["Bioconductor"],
-		shell:
-			"""
-			cp {params[0]} {output.greylist}
-			cp {params[0]} {output.greyAndBlackList}
-			"""
+    rule make_greylist_from_merged_input:  
+            input:
+                in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
+            output:
+                greylist="results/greyAndBlackLists/{sample}_greylist.bed",
+                greyAndBlackList="results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
+            params:
+                config["blackListFileName"],
+                config["BSgenomeRPackage"],
+                config["minMappingQuality"],
+                config["greyListProcessorsNumber"],
+            envmodules:
+                config["R"],
+                config["Bioconductor"],
+            shell:
+                """
+                cp {params[0]} {output.greylist}
+                cp {params[0]} {output.greyAndBlackList}
+                """
 
 # call narrow peaks with macs2 on merged bams
 rule call_narrow_peaks_with_macs2_on_merged:
@@ -395,6 +399,140 @@ rule make_heatplot_of_reproducible_peaks:
     output:
         "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.rds",
         "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
+    params:
+        config["colorsForHeatPlot"],
+        config["heatplotBreaks"],
+        config["pdfWidth"],
+        config["pdfHeight"],
+    envmodules:
+        config["R"],
+        config["Bioconductor"],
+    script:
+        "scripts/makeHeatPlot.R"
+
+### Broad Peaks
+
+# call broad peaks with macs2
+rule call_broad_peaks_with_macs2:
+    input:
+        tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
+        in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
+    output:
+        "results/macs2_broadPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.broadPeak"
+    params:
+        effective_genome_size=config["effective_genome_size"],
+        minimum_FDR_cutoff=str(config["macs2_minimum_FDR_cutoff"]),
+        sample_name="{sample}"
+    envmodules:
+        config["macs2"]
+    shell:
+        """
+        macs2 callpeak -t {input.tx_merged_bam} -c {input.in_merged_bam} -f BAMPE -g {params.effective_genome_size} -n {params.sample_name}_{params.minimum_FDR_cutoff} -q {params.minimum_FDR_cutoff} --outdir results/macs2_broadPeaks/ --broad
+        """
+
+# call broad peaks with macs2 on merged bams
+rule call_broad_peaks_with_macs2_on_merged:
+    input:
+        tx_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_tx.bam",
+        in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
+    output:
+        "results/macs2_broadPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.broadPeak",
+    params:
+        effective_genome_size=config["effective_genome_size"],
+        minimum_FDR_cutoff=str(config["macs2_minimum_FDR_cutoff"]),
+        sample_name="{sample}"
+    envmodules:
+        config["macs2"]
+    shell:
+        """
+        macs2 callpeak -t {input.tx_merged_downsampled_bam} -c {input.in_merged_downsampled_bam} -f BAMPE -g {params.effective_genome_size} -n {params.sample_name}_{params.minimum_FDR_cutoff} -q {params.minimum_FDR_cutoff} --outdir results/macs2_broadPeaks_merged/ --broad
+        """
+        
+# get overlaps between peaks of merged sample and individual samples
+rule report_broadPeaks_overlapping_with_merged:
+    input:
+        "results/macs2_broadPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.broadPeak",
+        "results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
+    output:
+        "results/mergedBroadPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
+    params:
+        ','.join(expand("results/macs2_broadPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.broadPeak", sample = set(samples_lst))),
+    envmodules:
+        config["R"],
+        config["Bioconductor"],
+    script:
+        "scripts/reportOverlappingPeaks.R"
+
+# make euler plot
+rule make_euler_plot_of_broadPeaks_overlaps_with_merged:
+    input:
+        "results/mergedBroadPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
+    output:
+        "results/eulerPlot/{sample}_BroadPeaks_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.rds",
+        "results/eulerPlot/{sample}_BroadPeaks_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.pdf",
+    params:
+        config["EulerFontSize"],
+        config["EulerColors"],
+        config["EulerWidth"],
+        config["EulerHeight"],
+    envmodules:
+        config["R"],
+        config["Bioconductor"],
+    script:
+        "scripts/makeEulerOfOverlappingPeaks.R"
+
+# make bed file of reproducible peaks
+rule make_bed_of_reproducible_broadPeaks:
+    input:
+        "results/mergedBroadPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
+    output:
+        "results/reproducibleBroadPeaksBed/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",
+    params:
+        config["minNumberOfSampleOverlaps"],
+    envmodules:
+        config["R"],
+        config["Bioconductor"],
+    script:
+        "scripts/make_bed_of_reproducible_peaks.R"
+        
+# make bed file of reproducible midpoints
+rule make_bed_of_reproducible_broadPeaks_midpoints:
+    input:
+        peaks = "results/reproducibleBroadPeaksBed/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",
+    output:
+        "results/reproducibleBroadPeaksMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "reproducibleBroadPeaksMidpoints.bed",
+    shell:
+        """
+        awk -v OFS='\t' '{{print $1,int(($2+$3)/2), (int(($2+$3)/2)+1),$4,$5,$6,$7,$8,$9,$10,$11,$12}}' {input.peaks} | sed 's/\t\t//g' > {output}
+        """
+
+# make coverage matrix across reproducible peak midpoints
+rule make_coverage_matrix_across_broadPeaks_midpoints:
+    input:
+        summits = "results/reproducibleBroadPeaksMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "reproducibleBroadPeaksMidpoints.bed",
+    output:
+        mx = "results/matrixOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossMidpoints.tab",
+        gz = "results/matrixOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossMidpoints.gz",
+    params:
+        readsBigWigs = ' '.join(expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",sample = set(samples_lst))),
+        brl=config["beforeRegionStartLength"],
+        arl=config["afterRegionStartLength"],
+        bns=config["binSize"],
+        nop=config["numberOfProcessors"],
+    envmodules:
+        config["deeptools"],
+    shell:
+        """
+        computeMatrix reference-point --outFileName {output.gz} -a {params.arl} -b {params.brl} --numberOfProcessors {params.nop} --smartLabels --outFileNameMatrix {output.mx} -S {params.readsBigWigs} -R {input.summits}
+        """
+
+# make heat plots of coverage over reproducible peaks
+rule make_heatplot_of_reproducible_broadPeaks:
+    input:
+        mx = "results/matrixOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossMidpoints.tab",
+    output:
+        "results/heatPlotOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.rds",
+        "results/heatPlotOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.pdf",
     params:
         config["colorsForHeatPlot"],
         config["heatplotBreaks"],
