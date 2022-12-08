@@ -502,7 +502,7 @@ rule make_bed_of_reproducible_broadPeaks_midpoints:
         "results/reproducibleBroadPeaksMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "reproducibleBroadPeaksMidpoints.bed",
     shell:
         """
-        awk -v OFS='\t' '{print $1,int(($2+$3)/2), (int(($2+$3)/2)+1),$4,$5,$6,$7,$8,$9,$10,$11,$12}' {input.peaks} | sed 's/\t\t//g' > {output}
+        awk -v OFS='\t' '{{print $1,int(($2+$3)/2), (int(($2+$3)/2)+1),$4,$5,$6,$7,$8,$9,$10,$11,$12}}' {input.peaks} | sed 's/\t\t//g' > {output}
         """
 
 # make coverage matrix across reproducible peak midpoints
