@@ -57,7 +57,7 @@ rule all:
         expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw", sample = set(samples_lst)),
         "results/mergedBackgroundNormalizedBigwigs/" + str(config["experimentName"]) + "_bkgrndNorm.bw",
         "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.rds",
-        "results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
+        #"results/heatPlotOfReadsAcrossPeakSummits/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
         "results/eulerPlot/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.rds",
         "results/reproducibleBroadPeaksBed/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",
         "results/heatPlotOfReadsAcrossBroadPeakMidpoints/" + str(config["experimentName"]) + "_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.rds",
@@ -398,7 +398,7 @@ rule make_heatplot_of_reproducible_peaks:
         mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossSummits.tab",
     output:
         "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.rds",
-        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
+        #"results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
     params:
         config["colorsForHeatPlot"],
         config["heatplotBreaks"],
@@ -532,7 +532,7 @@ rule make_heatplot_of_reproducible_broadPeaks:
         mx = "results/matrixOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossMidpoints.tab",
     output:
         "results/heatPlotOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.rds",
-        "results/heatPlotOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.pdf",
+        #"results/heatPlotOfReadsAcrossBroadPeakMidpoints/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossMidpoints.pdf",
     params:
         config["colorsForHeatPlot"],
         config["heatplotBreaks"],
