@@ -8,9 +8,9 @@ matrix_filename <- snakemake@input[[1]]
 colorsForHeatPlot <- stringr::str_split(snakemake@params[[1]],pattern=",") %>% .[[1]]
 heatplotBreaks <- stringr::str_split(snakemake@params[[2]],pattern=",") %>% .[[1]] %>% as.numeric
 rds_output <- snakemake@output[[1]]
-pdf_output <- snakemake@output[[2]]
-pdf_width <- snakemake@params[[3]] %>% as.numeric
-pdf_height <- snakemake@params[[4]] %>% as.numeric
+#pdf_output <- snakemake@output[[2]]
+#pdf_width <- snakemake@params[[3]] %>% as.numeric
+#pdf_height <- snakemake@params[[4]] %>% as.numeric
 
 map_colors<-circlize::colorRamp2(heatplotBreaks,colorsForHeatPlot)
 
