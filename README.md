@@ -5,7 +5,7 @@ Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
 
 # Process
 1.  Merge replicate treatment and input downsampled bams.
-2.  Call peaks on merged bams. These are the "merged" peaks.
+2.  Call peaks on merged bams. These are the [merged](#merged-peak-calling) peaks.
 3.  Identify merged that overlap peaks in each sample.
 4.  Make a heat plot showing coverage of all merged peaks with merged data.
 5.  Make a heat plot showing coverage of all merged peaks for each sample. 
@@ -104,6 +104,11 @@ Midpoints                                               |  PeakSummits
 
 ## Euler Plot
 <img src="images/testExperiment_0.05_eulerPlot.jpg" width=900>
+
+# Merged Peak Calling
+Visualization of calling peaks based on peaks found in either 2 or 3 replicates
+![](images/CallingMergedPeaks.jpg)
+
 
 ## Extra:
 
