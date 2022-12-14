@@ -1,5 +1,5 @@
 # ReplicatePeakAnalyzer
-Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
+Process for merging both technical and biological replicates. This pipeline will also analyze peaks from replicate samples of ChipSeq or Cut&amp;Run Experiment to produce heat plots and euler plots. 
 
 ![image](images/peaks.jpg)
 
