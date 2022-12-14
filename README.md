@@ -97,11 +97,11 @@ sbatch \
 # Output Examples:
 
 ## Heat Plots
-![Alt Text](images/testExperiment_0.05_2_heatPlotAcrossMidpoints.pdf)
-![Alt Text](images/testExperiment_0.05_2_heatPlotAcrossPeakSummits.pdf)
+![image](images/testExperiment_0.05_2_heatPlotAcrossMidpoints.pdf)
+![image](images/testExperiment_0.05_2_heatPlotAcrossPeakSummits.pdf)
 
 ## Euler Plot
-![Alt Text](images/testExperiment_0.05_eulerPlot.pdf)
+![image](images/testExperiment_0.05_eulerPlot.pdf)
 
 
 ## Extra:
