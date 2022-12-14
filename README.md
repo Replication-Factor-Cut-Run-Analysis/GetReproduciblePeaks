@@ -41,7 +41,7 @@ cd My_Project_Folder/
 ## 3A. Modify the config/samples.csv file
 Note. Make sure to rename sample file by removing "_template"
 
-The samples.csv file in the config folder has paths to the test bam files. You must replace those paths with those for your own bam files. The first column of each row is the sample name. This name will be used for all output files. Columns 2 and 3 are the paths to the treatment bam and input bam files. The fourth column identifies the set that the samples came from.
+The samples.csv file in the config folder has paths to the test bam files. You must replace those paths with those for your own bam files. The first column of each row is the sample name. This name will be used for all output files. Columns 2 and 3 are the paths to the treatment bam and input bam files. The fourth column identifies the set that the samples came from and will merge the files as technical replicates. All files run in this pipeline will be combined into a single biological replicate.
 
 | sample      | treatmentBam                   | inputBam                        | set        |
 |-------------|--------------------------------|---------------------------------|------------|
