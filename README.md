@@ -13,7 +13,14 @@ Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
 7.  Make an Upset plot showing overlap of the sample peaks.
 8.  Make a report.
 
+# Input
+1. List of .bam files
 
+# Output
+1. Merged .bam files
+2. Heat map of braod peaks
+3. Heat map of narrow peaks
+4. Euler plot of peaks overlapped
 
 # Direcitons to run pipeline
 
@@ -87,7 +94,14 @@ sbatch \
 --time {cluster.time}'"
 ```
 
+# Output Examples:
 
+## Heat Plots
+![Alt Text](images/testExperiment_0.05_2_heatPlotAcrossMidpoints.pdf)
+![Alt Text](images/testExperiment_0.05_2_heatPlotAcrossPeakSummits.pdf)
+
+## Euler Plot
+![Alt Text](images/testExperiment_0.05_eulerPlot.pdf)
 
 
 ## Extra:
