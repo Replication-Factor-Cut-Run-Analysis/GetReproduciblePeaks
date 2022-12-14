@@ -99,6 +99,7 @@ sbatch \
 ## Heat Plots
 ![image](images/testExperiment_0.05_2_heatPlotAcrossMidpoints.pdf)
 ![image](images/testExperiment_0.05_2_heatPlotAcrossPeakSummits.pdf)
+<img src="images/testExperiment_0.05_2_heatPlotAcrossPeakSummits.pdf">
 
 ## Euler Plot
 ![image](images/testExperiment_0.05_eulerPlot.pdf)
