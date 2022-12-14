@@ -1,6 +1,8 @@
 # ReplicatePeakAnalyzer
 Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
 
+![image](images/peaks.jpg)
+
 # Process
 1.  Merge replicate treatment and input downsampled bams.
 2.  Call peaks on merged bams. These are the "merged" peaks.
