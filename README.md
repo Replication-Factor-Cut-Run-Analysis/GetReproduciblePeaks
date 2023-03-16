@@ -1,17 +1,26 @@
 # ReplicatePeakAnalyzer
-Process for analyzing peaks from replicates of ChipSeq or Cut&amp;Run Experiment
+Process for merging both technical and biological replicates. This pipeline will also analyze peaks from replicate samples of ChipSeq or Cut&amp;Run Experiment to produce heat plots and euler plots. 
+
+![image](images/peaks.jpg)
 
 # Process
 1.  Merge replicate treatment and input downsampled bams.
-2.  Call peaks on merged bams. These are the "merged" peaks.
+2.  Call peaks on merged bams. These are the [merged](#merged-peak-calling) peaks.
 3.  Identify merged that overlap peaks in each sample.
-4.  Make a heat plot showing coverage of all merged peaks with merged data.
-5.  Make a heat plot showing coverage of all merged peaks for each sample. 
-6.  Make a Euler plot showing overlap of the sample peaks.
+4.  Make a [heat plot](#heat-plots) showing coverage of all merged peaks with merged data.
+5.  Make a [heat plot](#heat-plots) showing coverage of all merged peaks for each sample. 
+6.  Make a [Euler plot](#euler-plot) showing overlap of the sample peaks.
 7.  Make an Upset plot showing overlap of the sample peaks.
 8.  Make a report.
 
+# Input
+1. List of .bam files
 
+# Output
+1. Merged .bam files
+2. Heat map of braod peaks
+3. Heat map of narrow peaks
+4. Euler plot of peaks overlapped
 
 # Direcitons to run pipeline
 
@@ -41,15 +50,15 @@ cd My_Project_Folder/
 ## 3A. Modify the config/samples.csv file
 Note. Make sure to rename sample file by removing "_template"
 
-The samples.csv file in the config folder has paths to the test bam files. You must replace those paths with those for your own bam files. The first column of each row is the sample name. This name will be used for all output files. Columns 2 and 3 are the paths to the treatment bam and input bam files. The fourth column identifies the set that the samples came from.
+The samples.csv file in the config folder has paths to the test bam files. You must replace those paths with those for your own bam files. The first column of each row is the sample name. This name will be used to identify the data to merge. Columns 2 and 3 are the paths to the treatment bam and input bam files. The fourth column identifies the set that the samples came from and will merge the files as technical replicates. All files run in this pipeline will be combined into a single biological replicate.
 
 | sample      | treatmentBam                   | inputBam                        | set        |
 |-------------|--------------------------------|---------------------------------|------------|
-| testData1   | resources/testData/test1.bam   | resources/testData/input1.bam   | testSet    |
-| testData1   | resources/testData/test1B.bam  | resources/testData/input1.bam   | testSet    |
-| testData2   | resources/testData/test2.bam   | resources/testData/input2.bam   | testSet    |
-| testData2   | resources/testData/test2.bam   | resources/testData/input2B.bam  | testSet    |
-| testData3   | resources/testData/test3.bam   | resources/testData/input3.bam   | testSet    |
+| testData1   | resources/testData/test1.bam   | resources/testData/input1.bam   | testData1  |
+| testData1   | resources/testData/test1B.bam  | resources/testData/input1.bam   | testData1  |
+| testData2   | resources/testData/test2.bam   | resources/testData/input2.bam   | testData2  |
+| testData2   | resources/testData/test2B.bam  | resources/testData/input2B.bam  | testData2  |
+| testData3   | resources/testData/test3.bam   | resources/testData/input3.bam   | testData3  |
 
 
 #### 3B. IF SLURM RESOURCE CHANGES ARE NEEDED. Modify the config/cluster_config.yml file
@@ -85,7 +94,20 @@ sbatch \
 --time {cluster.time}'"
 ```
 
+# Output Examples:
 
+# Heat Plots
+Midpoints                                               |  PeakSummits
+:------------------------------------------------------:|:----------------------------------------------------------------------:
+![](images/testExperiment_0.05_2_heatPlotAcrossMidpoints.jpg)  |  ![](images/testExperiment_0.05_2_heatPlotAcrossPeakSummits.jpg)
+
+
+# Euler Plot
+<img src="images/testExperiment_0.05_eulerPlot.jpg" width=900>
+
+# Merged Peak Calling
+Visualization of calling peaks based on peaks found in either 2 or 3 replicates
+![](images/CallingMergedPeaks.jpg)
 
 
 ## Extra:
