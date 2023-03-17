@@ -1,3 +1,12 @@
+![Release](https://img.shields.io/github/v/release/SansamLab/ReplicatePeakAnalyzer?include_prereleases)
+![ReleaseDate](https://img.shields.io/github/release-date/SansamLab/ReplicatePeakAnalyzer)
+![Size](https://img.shields.io/github/repo-size/SansamLab/ReplicatePeakAnalyzer)
+![License](https://img.shields.io/github/license/SansamLab/ReplicatePeakAnalyzer)
+![LastCommit](https://img.shields.io/github/last-commit/SansamLab/ReplicatePeakAnalyzer)
+![Downloads](https://img.shields.io/github/downloads/SansamLab/ReplicatePeakAnalyzer/total)
+![OpenIssues](https://img.shields.io/github/issues-raw/SansamLab/ReplicatePeakAnalyzer)
+[![DOI](https://zenodo.org/badge/468099411.svg)](https://zenodo.org/badge/latestdoi/468099411)
+
 # ReplicatePeakAnalyzer
 Process for merging both technical and biological replicates. This pipeline will also analyze peaks from replicate samples of ChipSeq or Cut&amp;Run Experiment to produce heat plots and euler plots. 
 
