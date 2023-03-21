@@ -173,36 +173,19 @@ rule downsample_min_read_counts:
 
 # merge downsampled samples
 
-def filter_treatmentBam_by_set(Set,samples_Table):
+def filter_sample_by_set(Set,samples_Table):
     """
     This function takes a 'set' value as input and returns a dictionary containing
-    the unique treatmentBams corresponding to the given 'set' value from a pandas dataframe.
+    the unique sample names corresponding to the given 'set' value from a pandas dataframe.
     """
     # Filter the DataFrame to include only rows with the desired 'merged_sample' value
     filtered_rows = samples_Table[samples_Table['set'] == Set]
 
     # Convert the 'sample' column from 'filtered_rows' to a list, remove duplicates by converting it to a set and then back to a list
-    unique_samples = list(set(filtered_rows['treatmentBam'].tolist()))
+    unique_samples = list(set(filtered_rows['sample'].tolist()))
 
     # Create the dictionary containing the filtered samples
-    result = {Set: unique_samples}
-
-    # Return the dictionary containing the filtered samples
-    return result
-
-def filter_inputBam_by_set(Set,samples_Table):
-    """
-    This function takes a 'set' value as input and returns a dictionary containing
-    the unique inputBams corresponding to the given 'set' value from a pandas dataframe.
-    """
-    # Filter the DataFrame to include only rows with the desired 'merged_sample' value
-    filtered_rows = samples_Table[samples_Table['set'] == Set]
-
-    # Convert the 'sample' column from 'filtered_rows' to a list, remove duplicates by converting it to a set and then back to a list
-    unique_samples = list(set(filtered_rows['inputBam'].tolist()))
-
-    # Create the dictionary containing the filtered samples
-    result = {Set: unique_samples}
+    result = {sample: unique_samples}
 
     # Return the dictionary containing the filtered samples
     return result
@@ -211,20 +194,20 @@ rule merged_downsampled_bams:
     input:
         lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_treatmentBam_by_set(wildcards.sample,samples_table)),
+          sample = filter_sample_by_set(wildcards.sample,samples_table)),
         lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_inputBam_by_set(wildcards.sample,samples_table)),
+          sample = filter_sample_by_set(wildcards.sample,samples_table)),
     output:
         tx_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_tx.bam",
         in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
     params:
         tx_bams=lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_treatmentBam_by_set(wildcards.sample,samples_table)),
+          sample = filter_sample_by_set(wildcards.sample,samples_table)),
         in_bams=lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_inputBam_by_set(wildcards.sample,samples_table)),
+          sample = filter_sample_by_set(wildcards.sample,samples_table)),
     envmodules:
         config["samtools"]
     shell:
