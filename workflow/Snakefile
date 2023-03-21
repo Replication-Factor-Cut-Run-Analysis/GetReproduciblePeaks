@@ -219,12 +219,12 @@ rule merged_downsampled_bams:
         tx_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_tx.bam",
         in_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_in.bam",
     params:
-        tx_bams=' '.join(lambda wildcards: expand(
+        tx_bams=lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_treatmentBam_by_set(wildcards.sample,samples_table)[wildcards.sample])),
-        in_bams=' '.join(lambda wildcards: expand(
+          sample = filter_treatmentBam_by_set(wildcards.sample,samples_table)[wildcards.sample]),
+        in_bams=lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_inputBam_by_set(wildcards.sample,samples_table)[wildcards.sample])),
+          sample = filter_inputBam_by_set(wildcards.sample,samples_table)[wildcards.sample]),
     envmodules:
         config["samtools"]
     shell:
