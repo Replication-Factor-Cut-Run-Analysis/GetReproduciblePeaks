@@ -190,7 +190,7 @@ def filter_treatmentBam_by_set(Set,samples_Table):
     # Return the dictionary containing the filtered samples
     return result
 
-  def filter_inputBam_by_set(Set,samples_Table):
+def filter_inputBam_by_set(Set,samples_Table):
     """
     This function takes a 'set' value as input and returns a dictionary containing
     the unique inputBams corresponding to the given 'set' value from a pandas dataframe.
