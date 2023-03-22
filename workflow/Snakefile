@@ -511,11 +511,14 @@ rule make_normalized_merged_bigwigs_with_bamcompare:
 
 # make coverage matrix across reproducible peak summits
 rule make_coverage_matrix_across_peaks:
+    # Input: reproducible peak summits BED file
     input:
         summits = "results/reproduciblePeaksSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "reproducibleSummits.bed",
+    # Output: coverage matrix and compressed file
     output:
         mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossSummits.tab",
         gz = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossSummits.gz",
+    # Parameters: bigWigs, region lengths, bin size, and number of processors
     params:
         readsBigWigs=lambda wildcards: expand(
             f"results/backgroundNormalizedBigwigs/{{sample}}_bkgrndNorm.bw",
@@ -524,30 +527,39 @@ rule make_coverage_matrix_across_peaks:
         arl=config["afterRegionStartLength"],
         bns=config["binSize"],
         nop=config["numberOfProcessors"],
+    # Environment: load required software modules
     envmodules:
         config["deeptools"],
+    # Shell command: computeMatrix to create coverage matrix across peak summits
     shell:
         """
         computeMatrix reference-point --outFileName {output.gz} -a {params.arl} -b {params.brl} --numberOfProcessors {params.nop} --smartLabels --outFileNameMatrix {output.mx} -S {params.readsBigWigs} -R {input.summits}
         """
 
+
 # make heat plots of coverage over reproducible peaks
 rule make_heatplot_of_reproducible_peaks:
+    # Input: coverage matrix across peak summits
     input:
-        mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossSummits.tab",
+        mx = f"results/matrixOfReadsAcrossPeakSummits/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_readCountsAcrossSummits.tab",
+    # Output: RDS file and PDF of heat plot
     output:
-        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.rds",
-        "results/heatPlotOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_heatPlotAcrossPeakSummits.pdf",
+        f"results/heatPlotOfReadsAcrossPeakSummits/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_heatPlotAcrossPeakSummits.rds",
+        f"results/heatPlotOfReadsAcrossPeakSummits/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_heatPlotAcrossPeakSummits.pdf",
+    # Parameters: color settings, breaks, and PDF dimensions
     params:
         config["colorsForHeatPlot"],
         config["heatplotBreaks"],
         config["pdfWidth"],
         config["pdfHeight"],
+    # Environment: load required software modules
     envmodules:
         config["R"],
         config["Bioconductor"],
+    # Script: R script to generate heat plot
     script:
         "scripts/makeHeatPlot.R"
+
 
 ### Broad Peaks
 
