@@ -433,7 +433,7 @@ config["minNumberOfSampleOverlaps"] parameter.
 rule make_bed_of_reproducible_peaks:
     # Define the input file for the rule. This is a merged RDS file containing peaks filtered based on a minimum FDR cutoff.
     input:
-        "results/mergedPeakOverlaps/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.rds",      
+        f"results/mergedPeakOverlaps/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.rds",      
     # Define the output file for the rule. This is a BED file containing reproducible peaks, stored in the "results/reproduciblePeaksBed" directory.
     output:
         f"results/reproduciblePeaksBed/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_reproduciblePeaks.bed",      
