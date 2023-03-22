@@ -211,11 +211,11 @@ rule merged_downsampled_bams:
         # Treatment downsampled BAM files filtered by sample set
         lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_sample_by_set(wildcards.sample, samples_table)),
+          sample = cf.filter_sample_by_set(wildcards.sample, samples_table)),
         # Input downsampled BAM files filtered by sample set
         lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_sample_by_set(wildcards.sample, samples_table)),
+          sample = cf.filter_sample_by_set(wildcards.sample, samples_table)),
     # Define output file paths for merged downsampled BAM files
     output:
         tx_merged_downsampled_bam = "results/mergedDownSampledBams/{sample}_tx.bam",
@@ -225,11 +225,11 @@ rule merged_downsampled_bams:
         # Treatment downsampled BAM files filtered by sample set
         tx_bams=lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_sample_by_set(wildcards.sample, samples_table)),
+          sample = cf.filter_sample_by_set(wildcards.sample, samples_table)),
         # Input downsampled BAM files filtered by sample set
         in_bams=lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
-          sample = filter_sample_by_set(wildcards.sample, samples_table)),
+          sample = cf.filter_sample_by_set(wildcards.sample, samples_table)),
     # Load required software modules
     envmodules:
         config["samtools"]
