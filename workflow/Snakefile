@@ -525,14 +525,14 @@ rule make_normalized_merged_bigwigs_with_bamcompare:
 rule make_coverage_matrix_across_peaks:
     # Input: reproducible peak summits BED file
     input:
-        summits = f"results/reproduciblePeaksSummits/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_reproducibleSummits.bed",
+        summits = f"results/reproduciblePeaksSummits/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_reproducibleSummits.bed",
         readsBigWigs=lambda wildcards: expand(
             f"results/backgroundNormalizedBigwigs/{{sample}}_bkgrndNorm.bw",
             sample=cf.filter_sample_by_set(wildcards.sample,samples_table)),
     # Output: coverage matrix and compressed file
     output:
-        mx = f"results/matrixOfReadsAcrossPeakSummits/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_readCountsAcrossSummits.tab",
-        gz = f"results/matrixOfReadsAcrossPeakSummits/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_readCountsAcrossSummits.gz",
+        mx = f"results/matrixOfReadsAcrossPeakSummits/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_readCountsAcrossSummits.tab",
+        gz = f"results/matrixOfReadsAcrossPeakSummits/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_readCountsAcrossSummits.gz",
     # Parameters: bigWigs, region lengths, bin size, and number of processors
     params:
         readsBigWigs=lambda wildcards: expand(
