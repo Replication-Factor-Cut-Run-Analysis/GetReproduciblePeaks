@@ -215,11 +215,11 @@ rule merged_downsampled_bams:
     # Define input files for the rule using lambda functions
     input:
         # Treatment downsampled BAM files filtered by sample set
-        lambda wildcards: expand(
+        tx_bams=lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
           sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
         # Input downsampled BAM files filtered by sample set
-        lambda wildcards: expand(
+        in_bams=lambda wildcards: expand(
           "results/downSampledBams/{sample}_tx.bam",
           sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
     # Define output file paths for merged downsampled BAM files
@@ -243,12 +243,12 @@ rule merged_downsampled_bams:
     shell:
         """
         # Merge treatment downsampled BAM files and save as a new BAM file
-        samtools merge -@ 8 {output.tx_merged_downsampled_bam} {params.tx_bams}
+        samtools merge -@ 8 {output.tx_merged_downsampled_bam} {input.tx_bams}
         # Index the merged treatment downsampled BAM file
         samtools index -@ 8 {output.tx_merged_downsampled_bam}
         
         # Merge input downsampled BAM files and save as a new BAM file
-        samtools merge -@ 8 {output.in_merged_downsampled_bam} {params.in_bams}
+        samtools merge -@ 8 {output.in_merged_downsampled_bam} {input.in_bams}
         # Index the merged input downsampled BAM file
         samtools index -@ 8 {output.in_merged_downsampled_bam}
         """
@@ -370,8 +370,8 @@ rule report_peaks_overlapping_with_merged:
         f"results/greyAndBlackLists/{{sample}}_greyAndBlacklist.bed",
         # Narrow peak files of individual replicates
         lambda wildcards: expand(
-            f"results/macs2_normalPeaks/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.narrowPeak", 
-            sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
+            f"results/macs2_normalPeaks/{{Sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.narrowPeak", 
+            Sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
     # Define output file path for the overlaps
     output:
         f"results/mergedPeakOverlaps/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.rds",
