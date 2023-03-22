@@ -37,7 +37,7 @@ def In_BamFiles_dict_from_samples(sample, samples_table):
 
 def filter_sample_by_set(Set,samples_Table):
     """
-    This function takes a 'set' value as input and returns a dictionary containing
+    This function takes a 'set' value as input and returns a list containing
     the unique sample names corresponding to the given 'set' value from a pandas dataframe.
     """
     # Filter the DataFrame to include only rows with the desired 'merged_sample' value
@@ -45,9 +45,6 @@ def filter_sample_by_set(Set,samples_Table):
 
     # Convert the 'sample' column from 'filtered_rows' to a list, remove duplicates by converting it to a set and then back to a list
     unique_samples = list(set(filtered_rows['sample'].tolist()))
-
-    # Create the dictionary containing the filtered samples
-    result = {sample: unique_samples}
-
+    
     # Return the dictionary containing the filtered samples
-    return result
+    return unique_samples
