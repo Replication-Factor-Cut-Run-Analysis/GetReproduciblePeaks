@@ -165,9 +165,13 @@ rule downsample_min_read_counts:
         # Merged input replicate BAM file
         in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
         # Treatment read count files for all samples
-        tx_counts=expand("results/mappedReadCounts/{sample}_treated_mappedReadCounts.txt", sample=samples_lst),
+        tx_counts=lambda wildcards: expand(
+            f"results/mappedReadCounts/{{sample}}_treated_mappedReadCounts.txt",
+            sample=cf.filter_sample_by_set(samples_table.loc[samples_table['sample'] == wildcards.sample, 'set'].iloc[0])),
         # Input read count files for all samples
-        in_counts=expand("results/mappedReadCounts/{sample}_input_mappedReadCounts.txt", sample=samples_lst),
+        in_counts=lambda wildcards: expand(
+            f"results/mappedReadCounts/{{sample}}_input_mappedReadCounts.txt",
+            sample=cf.filter_sample_by_set(samples_table.loc[samples_table['sample'] == wildcards.sample, 'set'].iloc[0]))
     # Define output file paths for downsampled BAM files
     output:
         tx_downsampled_bam = "results/downSampledBams/{sample}_tx.bam",
