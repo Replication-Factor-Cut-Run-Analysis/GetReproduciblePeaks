@@ -164,12 +164,12 @@ rule downsample_min_read_counts:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
         # Merged input replicate BAM file
         in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
-        # Treatment read count files for all samples
+        # Treatment read count files for all samples in the same set as input and treatment
         tx_counts=lambda wildcards: expand(
             f"results/mappedReadCounts/{{sample}}_treated_mappedReadCounts.txt",
             sample=cf.filter_sample_by_set(
                 samples_table.loc[samples_table['sample'] == wildcards.sample, 'set'].iloc[0],samples_table)),
-        # Input read count files for all samples
+        # Input read count files for all samples in the same set as input and treatment
         in_counts=lambda wildcards: expand(
             f"results/mappedReadCounts/{{sample}}_input_mappedReadCounts.txt",
             sample=cf.filter_sample_by_set(
@@ -184,9 +184,9 @@ rule downsample_min_read_counts:
     # Define shell commands to downsample read counts
     shell:
         """
-        # Find the minimum read count for treatment BAM files
+        # Find the minimum read count for treatment BAM files of the set of interest
         tx_min=$(cat {input.tx_counts} | sort -n | head -1)
-        # Find the minimum read count for input BAM files
+        # Find the minimum read count for input BAM files of the set of interest
         in_min=$(cat {input.in_counts} | sort -n | head -1)
         
         # Define a function to downsample a BAM file based on the minimum read count
@@ -365,16 +365,19 @@ rule report_peaks_overlapping_with_merged:
 # Define input files for the rule
     input:
         # Merged sample narrow peak file
-        "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak",
+        f"results/macs2_normalPeaks_merged/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.narrowPeak",
         # Grey and blacklist file for the sample
-        "results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
+        f"results/greyAndBlackLists/{{sample}}_greyAndBlacklist.bed",
     # Define output file path for the overlaps
     output:
-        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
+        f"results/mergedPeakOverlaps/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.rds",
     # Set parameters for the rule
     params:
         # Comma-separated list of narrow peak files for individual samples
-        ','.join(expand("results/macs2_normalPeaks/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.narrowPeak", sample=set(samples_lst))),
+        ','.join(
+            lambda wildcards: expand(
+                f"results/macs2_normalPeaks/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.narrowPeak", 
+                sample=cf.filter_sample_by_set(wildcards.sample, samples_table))),
     # Load required software modules
     envmodules:
         config["R"],
