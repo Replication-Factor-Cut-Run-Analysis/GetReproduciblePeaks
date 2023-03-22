@@ -399,11 +399,11 @@ can be read into R.
 rule make_euler_plot_of_overlaps_with_merged:
     # Define the input file for the rule. This is the RDS file made in the report_peaks_overlapping_with_merged rule.
     input:
-        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",
+        f"results/mergedPeakOverlaps/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.rds",
     # Define the output files for the rule. This includes an RDS file and a PDF file, both of which are stored in the "results/eulerPlot" directory.
     output:
-        "results/eulerPlot/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.rds",
-        "results/eulerPlot/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_eulerPlot.pdf",
+        f"results/eulerPlot/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_eulerPlot.rds",
+        f"results/eulerPlot/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_eulerPlot.pdf",
     # Define the parameters needed to create the Euler plot. These include font size, colors, width, and height.
     params:
         config["EulerFontSize"],
@@ -433,10 +433,10 @@ config["minNumberOfSampleOverlaps"] parameter.
 rule make_bed_of_reproducible_peaks:
     # Define the input file for the rule. This is a merged RDS file containing peaks filtered based on a minimum FDR cutoff.
     input:
-        "results/mergedPeakOverlaps/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_peaks.rds",      
+        "results/mergedPeakOverlaps/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.rds",      
     # Define the output file for the rule. This is a BED file containing reproducible peaks, stored in the "results/reproduciblePeaksBed" directory.
     output:
-        "results/reproduciblePeaksBed/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",      
+        f"results/reproduciblePeaksBed/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_reproduciblePeaks.bed",      
     # Define the parameters needed to create the BED file of reproducible peaks. This includes the minimum number of sample overlaps.
     params:
         config["minNumberOfSampleOverlaps"],       
@@ -452,10 +452,10 @@ rule make_bed_of_reproducible_peaks:
 # make bed file of reproducible summits
 rule make_bed_of_reproducible_summits:
     input:
-        peaks = "results/reproduciblePeaksBed/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_reproduciblePeaks.bed",
-        summits = "results/macs2_normalPeaks_merged/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_summits.bed",
+        peaks = f"results/reproduciblePeaksBed/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_reproduciblePeaks.bed",
+        summits = f"results/macs2_normalPeaks_merged/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_summits.bed",
     output:
-        "results/reproduciblePeaksSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "reproducibleSummits.bed",
+        f"results/reproduciblePeaksSummits/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_reproducibleSummits.bed",
     params:
         config["minNumberOfSampleOverlaps"],
     envmodules:
@@ -473,7 +473,7 @@ rule make_normalized_bigwigs_with_bamcompare:
     input:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
         in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
-        bln="results/greyAndBlackLists/" + str(config["experimentName"]) + "_greyAndBlacklist.bed",
+        bln="results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
     output:
         "results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
     params:
@@ -499,7 +499,7 @@ rule make_normalized_merged_bigwigs_with_bamcompare:
     input:
         tx_merged_bam = "results/mergedDownSampledBams/{sample}_tx.bam",
         in_merged_bam = "results/mergedDownSampledBams/{sample}_in.bam",
-        bln="results/greyAndBlackLists/" + str(config["experimentName"]) + "_greyAndBlacklist.bed",
+        bln="results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
     output:
         "results/mergedBackgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
     params:
@@ -525,11 +525,14 @@ rule make_normalized_merged_bigwigs_with_bamcompare:
 rule make_coverage_matrix_across_peaks:
     # Input: reproducible peak summits BED file
     input:
-        summits = "results/reproduciblePeaksSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "reproducibleSummits.bed",
+        summits = f"results/reproduciblePeaksSummits/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_reproducibleSummits.bed",
+        readsBigWigs=lambda wildcards: expand(
+            f"results/backgroundNormalizedBigwigs/{{sample}}_bkgrndNorm.bw",
+            sample=cf.filter_sample_by_set(wildcards.sample,samples_table)),
     # Output: coverage matrix and compressed file
     output:
-        mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossSummits.tab",
-        gz = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossSummits.gz",
+        mx = f"results/matrixOfReadsAcrossPeakSummits/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_readCountsAcrossSummits.tab",
+        gz = f"results/matrixOfReadsAcrossPeakSummits/{sample}_{str(config['macs2_minimum_FDR_cutoff'])}_{str(config['minNumberOfSampleOverlaps'])}_readCountsAcrossSummits.gz",
     # Parameters: bigWigs, region lengths, bin size, and number of processors
     params:
         readsBigWigs=lambda wildcards: expand(
