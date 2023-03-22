@@ -473,7 +473,7 @@ rule make_normalized_bigwigs_with_bamcompare:
     input:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
         in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
-        bln="results/greyAndBlackLists/{sample}_greyAndBlacklist.bed",
+        bln=lambda wildcards: f"results/greyAndBlackLists/{samples_table.loc[samples_table['sample'] == wildcards.sample, 'set'].iloc[0]}_greyAndBlacklist.bed",
     output:
         "results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",
     params:
