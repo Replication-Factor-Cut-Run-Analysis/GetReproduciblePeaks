@@ -40,7 +40,7 @@ htmp <- ComplexHeatmap::Heatmap(
 ))
 
 saveRDS(htmp,rds_output)
-#pdf(file = pdf_output, width = pdf_width, height = pdf_height)
-#pdf(file = pdf_output)
-#htmp
-#dev.off()
+pdf(file = pdf_output, width = pdf_width, height = pdf_height)
+pdf(file = pdf_output)
+htmp
+dev.off()
