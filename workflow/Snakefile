@@ -368,6 +368,10 @@ rule report_peaks_overlapping_with_merged:
         f"results/macs2_normalPeaks_merged/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.narrowPeak",
         # Grey and blacklist file for the sample
         f"results/greyAndBlackLists/{{sample}}_greyAndBlacklist.bed",
+        # Narrow peak files of individual replicates
+        lambda wildcards: expand(
+            f"results/macs2_normalPeaks/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.narrowPeak", 
+            sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
     # Define output file path for the overlaps
     output:
         f"results/mergedPeakOverlaps/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.rds",
