@@ -517,7 +517,9 @@ rule make_coverage_matrix_across_peaks:
         mx = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossSummits.tab",
         gz = "results/matrixOfReadsAcrossPeakSummits/{sample}_" + str(config['macs2_minimum_FDR_cutoff']) + "_" + str(config['minNumberOfSampleOverlaps']) + "_readCountsAcrossSummits.gz",
     params:
-        readsBigWigs = ' '.join(expand("results/backgroundNormalizedBigwigs/{sample}_bkgrndNorm.bw",sample=set(samples_lst))),
+        readsBigWigs=lambda wildcards: expand(
+            f"results/backgroundNormalizedBigwigs/{{sample}}_bkgrndNorm.bw",
+            sample=cf.filter_sample_by_set(wildcards.sample,samples_table)),
         brl=config["beforeRegionStartLength"],
         arl=config["afterRegionStartLength"],
         bns=config["binSize"],
