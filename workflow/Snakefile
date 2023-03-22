@@ -374,10 +374,9 @@ rule report_peaks_overlapping_with_merged:
     # Set parameters for the rule
     params:
         # Comma-separated list of narrow peak files for individual samples
-        ','.join(
-            lambda wildcards: expand(
-                f"results/macs2_normalPeaks/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.narrowPeak", 
-                sample=cf.filter_sample_by_set(wildcards.sample, samples_table))),
+        lambda wildcards: ','.join(expand(
+            f"results/macs2_normalPeaks/{{sample}}_{str(config['macs2_minimum_FDR_cutoff'])}_peaks.narrowPeak", 
+            sample=cf.filter_sample_by_set(wildcards.sample, samples_table))),
     # Load required software modules
     envmodules:
         config["R"],
