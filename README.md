@@ -11,6 +11,7 @@
 Process for merging both technical and biological replicates. This pipeline will also analyze peaks from replicate samples of ChipSeq or Cut&amp;Run Experiment to produce heat plots and euler plots. 
 
 ![image](images/peaks.jpg)
+<sub>Green Global Travel. (2021). Mount Everest, Nepal/Tibet [Photograph]. Retrieved from https://greenglobaltravel.com/tallest-mountains-in-the-world/</sub>
 
 # Process
 1.  Merge replicate treatment and input downsampled bams.
