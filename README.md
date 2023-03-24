@@ -89,6 +89,7 @@ sbatch --constraint=westmere \
 --wrap="\
 snakemake \
 -R \
+-p \
 -j 999 \
 --use-envmodules \
 --latency-wait 100 \
