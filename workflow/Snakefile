@@ -72,7 +72,7 @@ rule all:
 ##################################################################
         
 # Merge technical replicates
-rule merge_technical_replicates:
+rule link_to_input_files:
     # Use params to define lambda functions that return the appropriate input files based on wildcards
     params:
         # Get the list of technical replicate BAM files for the sample from the samples table
@@ -84,18 +84,18 @@ rule merge_technical_replicates:
         tx_merged_bam = "results/mergedTechnicalReplicates/{sample}_tx.bam",
         in_merged_bam = "results/mergedTechnicalReplicates/{sample}_in.bam",
     # Load required software modules
-    envmodules: 
-        config["samtools"],
+    envmodules:
+        config["samtools"]
     # Define shell commands to merge and index BAM files
     shell:
         """
-        # Merge technical replicate BAM files for the sample and save as a new BAM file
-        samtools merge -@ 8 {output.tx_merged_bam} {params.tx_technical_replicates}
+        # make a symbolic link between the original file and the new filename for treatment
+        ln -s {params.tx_technical_replicates} {output.tx_merged_bam}
         # Index the merged technical replicate BAM file
         samtools index -@ 8 {output.tx_merged_bam}
         
-        # Merge input replicate BAM files for the sample and save as a new BAM file
-        samtools merge -@ 8 {output.in_merged_bam} {params.in_technical_replicates}
+        # make a symbolic link between the original file and the new filename for control
+        ln -s {params.in_technical_replicates} {output.in_merged_bam}
         # Index the merged input replicate BAM file
         samtools index -@ 8 {output.in_merged_bam}
         """
