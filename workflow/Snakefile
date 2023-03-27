@@ -90,12 +90,12 @@ rule link_to_input_files:
     shell:
         """
         # make a symbolic link between the original file and the new filename for treatment
-        ln -s {params.tx_technical_replicates} {output.tx_merged_bam}
+        cp {params.tx_technical_replicates} {output.tx_merged_bam}
         # Index the merged technical replicate BAM file
         samtools index -@ 8 {output.tx_merged_bam}
         
         # make a symbolic link between the original file and the new filename for control
-        ln -s {params.in_technical_replicates} {output.in_merged_bam}
+        cp {params.in_technical_replicates} {output.in_merged_bam}
         # Index the merged input replicate BAM file
         samtools index -@ 8 {output.in_merged_bam}
         """
