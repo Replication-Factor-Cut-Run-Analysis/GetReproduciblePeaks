@@ -220,7 +220,7 @@ rule merged_downsampled_bams:
           sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
         # Input downsampled BAM files filtered by sample set
         in_bams=lambda wildcards: expand(
-          "results/downSampledBams/{sample}_tx.bam",
+          "results/downSampledBams/{sample}_in.bam",
           sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
     # Define output file paths for merged downsampled BAM files
     output:
@@ -234,7 +234,7 @@ rule merged_downsampled_bams:
           sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
         # Input downsampled BAM files filtered by sample set
         in_bams=lambda wildcards: expand(
-          "results/downSampledBams/{sample}_tx.bam",
+          "results/downSampledBams/{sample}_in.bam",
           sample=cf.filter_sample_by_set(wildcards.sample, samples_table)),
     # Load required software modules
     envmodules:
