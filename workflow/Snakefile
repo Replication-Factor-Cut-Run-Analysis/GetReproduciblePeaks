@@ -89,12 +89,12 @@ rule link_to_input_files:
     # Define shell commands to merge and index BAM files
     shell:
         """
-        # make a symbolic link between the original file and the new filename for treatment
+        # copy, rename, and move original treatment files
         cp {params.tx_technical_replicates} {output.tx_merged_bam}
         # Index the merged technical replicate BAM file
         samtools index -@ 8 {output.tx_merged_bam}
         
-        # make a symbolic link between the original file and the new filename for control
+        # copy, rename, and move original control files
         cp {params.in_technical_replicates} {output.in_merged_bam}
         # Index the merged input replicate BAM file
         samtools index -@ 8 {output.in_merged_bam}
