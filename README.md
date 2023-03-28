@@ -64,11 +64,11 @@ The samples.csv file in the config folder has paths to the test bam files. You m
 
 | sample      | treatmentBam                   | inputBam                        | set        |
 |-------------|--------------------------------|---------------------------------|------------|
-| testData1   | resources/testData/test1.bam   | resources/testData/input1.bam   | testData1  |
-| testData1   | resources/testData/test1B.bam  | resources/testData/input1.bam   | testData1  |
-| testData2   | resources/testData/test2.bam   | resources/testData/input2.bam   | testData2  |
-| testData2   | resources/testData/test2B.bam  | resources/testData/input2B.bam  | testData2  |
-| testData3   | resources/testData/test3.bam   | resources/testData/input3.bam   | testData3  |
+| testData1A  | resources/testData/test1.bam   | resources/testData/input1.bam   | testSet1   |
+| testData1B  | resources/testData/test1B.bam  | resources/testData/input1.bam   | testSet1   |
+| testData2A  | resources/testData/test2.bam   | resources/testData/input2.bam   | testSet2   |
+| testData2B  | resources/testData/test2B.bam  | resources/testData/input2B.bam  | testSet2   |
+| testData3A  | resources/testData/test3.bam   | resources/testData/input3.bam   | testSet3   |
 
 
 #### 3B. IF SLURM RESOURCE CHANGES ARE NEEDED. Modify the config/cluster_config.yml file
