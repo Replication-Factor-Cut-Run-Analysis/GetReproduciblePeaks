@@ -60,7 +60,15 @@ cd My_Project_Folder/
 ## 3A. Modify the config/samples.csv file
 Note. Make sure to rename sample file by removing "_template"
 
-The samples.csv file in the config folder has paths to the test bam files. You must replace those paths with those for your own bam files. The first column of each row is the sample name. This name will be used to identify the data to merge. Columns 2 and 3 are the paths to the treatment bam and input bam files. The fourth column identifies the set that the samples came from and will merge the files as technical replicates. All files run in this pipeline will be combined into a single biological replicate.
+
+5. Fill the fourth column labeled "Set" with the appropriate indicator for each sample. This column will identify the set that each sample belongs to. Samples with the same indicator in the "Set" column will be considered part of the same set and used to generate a consensus peakset. The desired number of samples with overlapping peaks is specified in the config.yml file.
+
+1. Open the "samples.csv" file located in the "/config" folder.
+2. In the first column labeled "sample", enter a unique name for each sample. These names will be used to identify the samples and establish the naming convention for the samples going forward.
+3. In the second column labeled "treatmentBam", replace the existing filenames and paths with the names and paths of your desired treatment BAM files.
+4. In the third column labeled "inputBam", replace the existing filenames and paths with the names and paths of your desired input BAM files.
+5. Fill the fourth column labeled "set" with an appropriate indicator for each sample. This indicator will determine the sample's set membership. Samples with the same indicator in the "set" column will be considered part of the same set and are used to generate a consensus peak set. The desired number of samples with overlapping peaks to generate a consensus peakset is specified in the "config.yml" file.
+
 
 | sample      | treatmentBam                   | inputBam                        | set        |
 |-------------|--------------------------------|---------------------------------|------------|
