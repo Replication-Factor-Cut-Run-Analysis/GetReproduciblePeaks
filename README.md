@@ -60,9 +60,6 @@ cd My_Project_Folder/
 ## 3A. Modify the config/samples.csv file
 Note. Make sure to rename sample file by removing "_template"
 
-
-5. Fill the fourth column labeled "Set" with the appropriate indicator for each sample. This column will identify the set that each sample belongs to. Samples with the same indicator in the "Set" column will be considered part of the same set and used to generate a consensus peakset. The desired number of samples with overlapping peaks is specified in the config.yml file.
-
 1. Open the "samples.csv" file located in the "/config" folder.
 2. In the first column labeled "sample", enter a unique name for each sample. These names will be used to identify the samples and establish the naming convention for the samples going forward.
 3. In the second column labeled "treatmentBam", replace the existing filenames and paths with the names and paths of your desired treatment BAM files.
