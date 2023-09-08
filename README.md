@@ -11,6 +11,7 @@
 Process for merging both technical and biological replicates. This pipeline will also analyze peaks from replicate samples of ChipSeq or Cut&amp;Run Experiment to produce heat plots and euler plots. 
 
 ![image](images/peaks.jpg)
+<sub>Green Global Travel. (2021). Mount Everest, Nepal/Tibet [Photograph]. Retrieved from https://greenglobaltravel.com/tallest-mountains-in-the-world/</sub>
 
 # Process
 1.  Merge replicate treatment and input downsampled bams.
@@ -59,15 +60,19 @@ cd My_Project_Folder/
 ## 3A. Modify the config/samples.csv file
 Note. Make sure to rename sample file by removing "_template"
 
-The samples.csv file in the config folder has paths to the test bam files. You must replace those paths with those for your own bam files. The first column of each row is the sample name. This name will be used to identify the data to merge. Columns 2 and 3 are the paths to the treatment bam and input bam files. The fourth column identifies the set that the samples came from and will merge the files as technical replicates. All files run in this pipeline will be combined into a single biological replicate.
+1. Open the "samples.csv" file located in the "/config" folder.
+2. In the first column labeled "sample", enter a unique name for each sample. These names will be used to identify the samples and establish the naming convention for the samples going forward.
+3. In the second column labeled "treatmentBam", replace the existing filenames and paths with the names and paths of your desired treatment BAM files.
+4. In the third column labeled "inputBam", replace the existing filenames and paths with the names and paths of your desired input BAM files.
+5. Fill the fourth column labeled "set" with an appropriate indicator for each sample. This indicator will determine the sample's set membership. Samples with the same indicator in the "set" column will be considered part of the same set and are used to generate a consensus peak set. The desired number of samples with overlapping peaks to generate a consensus peakset is specified in the "config.yml" file.
+
 
 | sample      | treatmentBam                   | inputBam                        | set        |
 |-------------|--------------------------------|---------------------------------|------------|
-| testData1   | resources/testData/test1.bam   | resources/testData/input1.bam   | testData1  |
-| testData1   | resources/testData/test1B.bam  | resources/testData/input1.bam   | testData1  |
-| testData2   | resources/testData/test2.bam   | resources/testData/input2.bam   | testData2  |
-| testData2   | resources/testData/test2B.bam  | resources/testData/input2B.bam  | testData2  |
-| testData3   | resources/testData/test3.bam   | resources/testData/input3.bam   | testData3  |
+| testData1A  | resources/testData/test1.bam   | resources/testData/input1.bam   | testSet1   |
+| testData1B  | resources/testData/test1B.bam  | resources/testData/input1.bam   | testSet1   |
+| testData2A  | resources/testData/test2.bam   | resources/testData/input2.bam   | testSet2   |
+| testData2B  | resources/testData/test2B.bam  | resources/testData/input2B.bam  | testSet2   |
 
 
 #### 3B. IF SLURM RESOURCE CHANGES ARE NEEDED. Modify the config/cluster_config.yml file
@@ -88,6 +93,7 @@ sbatch --constraint=westmere \
 --wrap="\
 snakemake \
 -R \
+-p \
 -j 999 \
 --use-envmodules \
 --latency-wait 100 \
